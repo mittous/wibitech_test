@@ -1,7 +1,7 @@
 'use client';
 
 import { createContext, useContext, useState, useEffect } from 'react';
-import axios from '@/lib/api';
+import axios from '@/lib/api'; // axios instance with token interceptor
 import { useRouter } from 'next/navigation';
 import { toast } from 'react-toastify';
 
@@ -11,11 +11,11 @@ interface User {
   role: 'admin' | 'regular';
 }
 
-
 interface AuthContextType {
   user: User | null;
   token: string | null;
   login: (username: string, password: string) => Promise<void>;
+  logout: () => void;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -26,13 +26,14 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const router = useRouter();
 
 
+
   const login = async (username: string, password: string) => {
     try {
       const res = await axios.post('/login', { username, password });
       const token = res.data.token;
       const user = res.data.user;
 
-      localStorage.setItem('token', token); // the best practice it use it in cokies but it was asked in the task
+      localStorage.setItem('token', token);// the best practice it use it in cokies but it was asked in the task tst
       localStorage.setItem('user', JSON.stringify(user));
 
       setToken(token);
@@ -45,9 +46,16 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     }
   };
 
+  const logout = () => {
+    setToken(null);
+    setUser(null);
+    localStorage.removeItem('token');
+    localStorage.removeItem('user');
+    router.push('/login');
+  };
 
   return (
-    <AuthContext.Provider value={{ user, token, login }}>
+    <AuthContext.Provider value={{ user, token, login, logout }}>
       {children}
     </AuthContext.Provider>
   );
