@@ -26,6 +26,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const router = useRouter();
 
 
+  // to-do useeffect for checking if the user is logged in
 
   const login = async (username: string, password: string) => {
     try {
