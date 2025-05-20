@@ -16,6 +16,15 @@ interface AuthContextType {
   token: string | null;
   login: (username: string, password: string) => Promise<void>;
   logout: () => void;
+  register: (data: RegisterPayload) => Promise<void>; // <-- New
+}
+
+// Payload shape for registration
+interface RegisterPayload {
+  fullName: string;
+  username: string;
+  password: string;
+  role: "admin" | "user";
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -45,6 +54,16 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     } catch (error: any) {
       toast.error(error.response?.data?.message || 'Login failed');
     }
+  };  
+
+   // Register logic
+   const register = async (data: RegisterPayload) => {
+    const res = await axios.post("https://recruter-backend.vercel.app/api/register", data);
+
+    // Auto-login after successful registration
+    setToken(res.data.token);
+    setUser(res.data.user);
+    localStorage.setItem("token", res.data.token);
   };
 
   const logout = () => {
@@ -56,7 +75,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   };
 
   return (
-    <AuthContext.Provider value={{ user, token, login, logout }}>
+    <AuthContext.Provider value={{ user, token, login, logout, register }}>
       {children}
     </AuthContext.Provider>
   );
