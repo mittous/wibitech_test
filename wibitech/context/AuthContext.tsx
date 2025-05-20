@@ -56,7 +56,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     }
   };  
 
-   // Register logic
+   // Register logic 
    const register = async (data: RegisterPayload) => {
     const res = await axios.post("https://recruter-backend.vercel.app/api/register", data);
 
@@ -64,6 +64,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     setToken(res.data.token);
     setUser(res.data.user);
     localStorage.setItem("token", res.data.token);
+    console.log(res.data);
   };
 
   const logout = () => {
