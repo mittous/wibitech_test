@@ -1,54 +1,77 @@
-"use client";
+'use client';
 
-import { useState } from "react";
-import { useAuth } from "@/context/AuthContext";
-import { toast } from "react-toastify";
+import { useForm } from 'react-hook-form';
+import { TextInput } from '@/components/ui/TextInput';
+import { Button } from '@/components/ui/Button';
+import { FormTitle } from '@/components/ui/FormTitle';
+import { useAuth } from '@/context/AuthContext';
+import { useRouter } from 'next/navigation';
+import { toast } from 'react-toastify';
+
+type LoginFormData = {
+  username: string;
+  password: string;
+};
 
 export default function LoginPage() {
-  const { login } = useAuth();
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
+  const { login } = useAuth(); // Access login from context
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
+  const {
+    register,
+    handleSubmit,
+    formState: { errors, isSubmitting },
+  } = useForm<LoginFormData>();
+
+  const onSubmit = async (data: LoginFormData) => {
     try {
-      await login(username, password);
-    } catch (err) {
-      toast.error("Invalid credentials");
+      await login(data.username, data.password); // Call login function
+      // Redirect after successful login
+    } catch (error) {
+      console.error('Login failed:', error);
+      toast.error('Login failed');
     }
   };
 
   return (
-    <div className="flex min-h-screen items-center justify-center bg-gray-100 dark:bg-gray-900 transition-colors">
-      <form
-        onSubmit={handleSubmit}
-        className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md w-full max-w-md"
+    <div className='flex flex-col items-center justify-center h-screen  '>
+      {/* <button
+        onClick={() => {
+          if (document.documentElement.classList.contains('dark')) {
+            document.documentElement.classList.remove('dark');
+          } else {
+            document.documentElement.classList.add('dark');
+          }
+        }}
       >
-        <h2 className="text-2xl font-bold mb-4 text-gray-800 dark:text-white">Login</h2>
+        Toggle Dark Mode
+      </button> */}
 
-        <label className="block text-gray-700 dark:text-gray-300 mb-2">Username</label>
-        <input
-          type="text"
-          value={username}
-          onChange={(e) => setUsername(e.target.value)}
-          className="w-full p-2 mb-4 border border-gray-300 rounded dark:bg-gray-700 dark:text-white dark:border-gray-600"
+      <form
+        onSubmit={handleSubmit(onSubmit)}
+        className="bg-white  dark:bg-zinc-900  max-w-[380px] w-full  p-6  rounded-3xl border border-sky-500 dark:border-zinc-700 "
+      >
+        <FormTitle title="Login" />
+
+        <TextInput
+          label="Username"
+          placeholder="imittous"
+          {...register('username', { required: 'Username is required' })}
+          error={errors.username?.message}
         />
 
-        <label className="block text-gray-700 dark:text-gray-300 mb-2">Password</label>
-        <input
+        <TextInput
+          label="Password"
+          placeholder="••••••••••••"
           type="password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          className="w-full p-2 mb-4 border border-gray-300 rounded dark:bg-gray-700 dark:text-white dark:border-gray-600"
+          {...register('password', { required: 'Password is required' })}
+          error={errors.password?.message}
         />
 
-        <button
-          type="submit"
-          className="w-full bg-blue-600 hover:bg-blue-700 text-white p-2 rounded transition"
-        >
-          Log In
-        </button>
+        <Button type="submit" disabled={isSubmitting}>
+          {isSubmitting ? 'Logging in...' : 'Login'}
+        </Button>
       </form>
     </div>
+
   );
 }

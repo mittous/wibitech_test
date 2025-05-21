@@ -52,6 +52,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       toast.success('Login successful');
       router.push('/tasks');
     } catch (error: any) {
+      console.log(error);
       toast.error(error.response?.data?.message || 'Login failed');
     }
   };  
