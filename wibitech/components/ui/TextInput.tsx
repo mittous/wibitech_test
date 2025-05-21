@@ -9,8 +9,8 @@ interface TextInputProps extends React.InputHTMLAttributes<HTMLInputElement> {
 
 export const TextInput = ({ label, error, placeholder, ...props }: TextInputProps) => {
   return (
-    <div className="mb-4 flex flex-col gap-2">
-      <label className="justify-start text-black text-sm font-semibold leading-none">{label}</label>
+    <div className="flex flex-col gap-2 w-full">
+      <label className="justify-start text-black dark:text-white text-sm font-semibold leading-none">{label}</label>
       <input
         {...props}
         className="bg-neutral-100 dark:bg-zinc-800 rounded-2xl p-4 w-full min-w-full focus:outline-none focus:ring-2 focus:ring-blue-500"

@@ -1,8 +1,14 @@
 "use client";
 
 import { useForm } from "react-hook-form";
+import { TextInput } from "@/components/ui/TextInput";
+import { Button } from "@/components/ui/Button";
+import { FormTitle } from "@/components/ui/FormTitle";
 import { useAuth } from "@/context/AuthContext";
 import { useRouter } from "next/navigation";
+import { toast } from "react-toastify";
+import ImageWrapper from "@/components/ui/ImageWrapper";
+import Link from "next/link";
 
 type RegisterFormInputs = {
   fullName: string;
@@ -26,59 +32,106 @@ export default function RegisterPage() {
       await registerUser(data);
       router.push("/tasks");
     } catch (err) {
-        console.log(err);
-      alert("Failed to register");
-      console.error(err);
+      console.error("Registration failed:", err);
+      toast.error("Failed to register");
     }
   };
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className="space-y-4 max-w-md mx-auto mt-10">
-      <div>
-        <input
-          {...register("fullName", { required: "Full name is required" })}
-          placeholder="Full Name"
-          className="border p-2 w-full"
-        />
-        {errors.fullName && <p className="text-red-500">{errors.fullName.message}</p>}
-      </div>
-
-      <div>
-        <input
-          {...register("username", { required: "Username is required" })}
-          placeholder="Username"
-          className="border p-2 w-full"
-        />
-        {errors.username && <p className="text-red-500">{errors.username.message}</p>}
-      </div>
-
-      <div>
-        <input
-          type="password"
-          {...register("password", {
-            required: "Password is required",
-            minLength: { value: 6, message: "Minimum length is 6 characters" },
-          })}
-          placeholder="Password"
-          className="border p-2 w-full"
-        />
-        {errors.password && <p className="text-red-500">{errors.password.message}</p>}
-      </div>
-
-      <div>
-        <select {...register("role")} className="border p-2 w-full">
-          <option value="user">User</option>
-          <option value="admin">Admin</option>
-        </select>
-      </div>
-
+    <div className='min-h-screen flex flex-col items-center justify-center py-8'>
       <button
-        type="submit"
-        disabled={isSubmitting}
-        className="bg-blue-600 text-white px-4 py-2 rounded w-full"
+        onClick={() => {
+          if (document.documentElement.classList.contains('dark')) {
+            document.documentElement.classList.remove('dark');
+          } else {
+            document.documentElement.classList.add('dark');
+          }
+        }}
       >
-        {isSubmitting ? "Registering..." : "Register"}
+        Toggle Dark Mode
       </button>
-    </form>
+
+      <form
+        onSubmit={handleSubmit(onSubmit)}
+        className="flex flex-col gap-[80px] bg-white dark:bg-zinc-900 max-w-[380px] w-full p-6 rounded-3xl border border-sky-500 dark:border-zinc-700"
+      >
+        <div className="flex items-center justify-center">
+          <ImageWrapper
+            src="/logo.svg"
+            alt="taski Logo"
+            width={100}
+            height={40}
+            className="dark:hidden"
+            isSvg={true}
+          />
+          <ImageWrapper
+            src="/logo_darkMode.svg"
+            alt="taski Logo"
+            width={100}
+            height={40}
+            className="dark:block hidden"
+            isSvg={true}
+          />
+        </div>
+
+        <div className="flex flex-col items-center justify-center w-full">
+          <div className='flex w-full items-center justify-center'>
+            <FormTitle title="Register" className='text-center text-[28px] font-semibold leading-7' />
+          </div>
+          <div className='flex flex-col gap-[15px] w-full mt-[30px] mb-5'>
+            <TextInput
+              label="Full Name"
+              placeholder="John Doe"
+              {...register("fullName", { required: "Full name is required" })}
+              error={errors.fullName?.message}
+            />
+            <TextInput
+              label="Username"
+              placeholder="johndoe"
+              {...register("username", { required: "Username is required" })}
+              error={errors.username?.message}
+            />
+            <TextInput
+              label="Password"
+              placeholder="••••••••••••"
+              type="password"
+              {...register("password", {
+                required: "Password is required",
+                minLength: { value: 6, message: "Minimum length is 6 characters" },
+              })}
+              error={errors.password?.message}
+            />
+            <select
+              {...register("role")}
+              className="bg-neutral-100 dark:bg-zinc-800 rounded-2xl p-4 pr-10 w-full max-w-sm truncate focus:outline-none focus:ring-2 focus:ring-blue-500"
+            >
+              <option value="user">User</option>
+              <option value="admin">Admin</option>
+            </select>
+          </div>
+
+          <div className="flex flex-col w-full gap-[15px]">
+            <Button type="submit" disabled={isSubmitting} className='w-full text-center text-sm hover:bg-blue-700 transition-colors'>
+              {isSubmitting ? "Registering..." : "Register"}
+            </Button>
+            <div className="relative flex items-center justify-center">
+              <div className="absolute w-full h-px bg-gray-300 dark:bg-gray-700" />
+              <span className="bg-white dark:bg-zinc-900 px-2 text-sm text-gray-500 dark:text-gray-400 z-10">
+                or
+              </span>
+            </div>
+
+            <div className="text-center">
+              <p className="text-sm text-gray-600 dark:text-gray-400">
+                Already have an account?{" "}
+                <Link href="/login" className="text-blue-600 hover:underline dark:text-blue-400">
+                  Login
+                </Link>
+              </p>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
   );
 }
