@@ -32,7 +32,7 @@ export default function Navbar() {
 
 	console.log("isAuthPage", isAuthPage);
 	return ( 
-		<nav className="sm:px-[100px] px-[15px] py-[50px] w-full flex justify-between items-center fixed top-0 left-0 z-50 bg-white dark:bg-zinc-900 ">
+		<nav className={`sm:px-[100px] px-[15px] py-[50px] w-full flex justify-between items-center fixed top-0 left-0 z-50  ${isAuthPage ? "" : "bg-white dark:bg-zinc-900"}`}>
 			{isAuthPage ? (
 				<div />
 			) : (
@@ -41,7 +41,7 @@ export default function Navbar() {
 
 			<div className="flex items-center justify-center text-center gap-4">
 				{isAuthPage && (
-					<button onClick={toggleDark} className="p-2 rounded-full hover:bg-gray-200 dark:hover:bg-zinc-700 transition">
+					<button onClick={toggleDark} className="p-2 rounded-full hover:bg-gray-600 dark:hover:bg-zinc-100 bg-zinc-100  dark:bg-gray-600 transition">
 						{isDark ? <Sun size={20} /> : <Moon size={20} />}
 					</button>
 				)}

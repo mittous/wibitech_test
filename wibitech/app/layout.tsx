@@ -8,10 +8,12 @@ import { ToastContainer } from "react-toastify";
 import Navbar from "@/components/ui/Navbar";
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
+
+
   return (
     <html lang="en">
       <body className="sm:px-[100px] px-[15px]">
-        
+
 
         <AuthProvider>
           {/* <TaskProvider> */}
