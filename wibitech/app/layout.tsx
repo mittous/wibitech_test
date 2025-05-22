@@ -10,7 +10,7 @@ import Navbar from "@/components/ui/Navbar";
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en">
-      <body className="sm:px-[50px] px-[15px]">
+      <body className="sm:px-[100px] px-[15px]">
         
 
         <AuthProvider>

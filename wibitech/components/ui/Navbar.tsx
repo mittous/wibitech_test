@@ -8,6 +8,7 @@ import { Moon, Sun } from "lucide-react";
 import TaskiLogo from "./TaskiLogo";
 import { useAuth } from "@/context/AuthContext";
 import { FormTitle } from "./FormTitle";
+import { UserDropdown } from "./UserDropdown";
 
 export default function Navbar() {
 	const pathname = usePathname();
@@ -30,8 +31,8 @@ export default function Navbar() {
 	const isAuthPage = pathname.includes("/login") || pathname.includes("/register");
 
 	console.log("isAuthPage", isAuthPage);
-	return (
-		<nav className="w-full  py-[50px] flex justify-between items-center">
+	return ( 
+		<nav className="sm:px-[100px] px-[15px] py-[50px] w-full flex justify-between items-center fixed top-0 left-0 z-50 bg-white dark:bg-zinc-900 ">
 			{isAuthPage ? (
 				<div />
 			) : (
@@ -39,26 +40,21 @@ export default function Navbar() {
 			)}
 
 			<div className="flex items-center justify-center text-center gap-4">
-				{isAuthPage ? (
+				{isAuthPage && (
 					<button onClick={toggleDark} className="p-2 rounded-full hover:bg-gray-200 dark:hover:bg-zinc-700 transition">
 						{isDark ? <Sun size={20} /> : <Moon size={20} />}
 					</button>
-				) : (
-
-					<FormTitle title={user?.username} className="text-black dark:text-white text-lg font-semibold text-center" />
 				)}
-
 				{!isAuthPage && user && (
 					<div className="flex items-center gap-2">
-						<Image
-							src="/adminAvatar.svg"
-							alt="Avatar"
-							width={45}
-							height={45}
-							className="rounded-full"
+						<FormTitle
+							title={user?.username}
+							className="text-black dark:text-white text-lg font-semibold text-center"
 						/>
+						<UserDropdown />
 					</div>
 				)}
+
 			</div>
 		</nav>
 	);
