@@ -37,6 +37,15 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 
   // to-do useeffect for checking if the user is already logged in
 
+  useEffect(() => {
+    const token = localStorage.getItem('token');
+    const user = localStorage.getItem('user');
+    if (token && user) {
+      setToken(token);
+      setUser(JSON.parse(user));
+    }
+  }, []);
+  
   const login = async (username: string, password: string) => {
     try {
       const res = await axios.post('/login', { username, password });
@@ -55,17 +64,20 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       console.log(error);
       toast.error(error.response?.data?.message || 'Login failed');
     }
-  };  
+  };
 
-   // Register logic 
-   const register = async (data: RegisterPayload) => {
-    const res = await axios.post("https://recruter-backend.vercel.app/api/register", data);
+  // Register logic 
+  const register = async (data: RegisterPayload) => {
+    try {
+      const res = await axios.post("https://recruter-backend.vercel.app/api/register", data);
+      login(data.username, data.password);
+      toast.success('Registration successful');
+      router.push('/tasks');
+    } catch (error: any) {
+      console.log(error);
+      toast.error(error.response?.data?.message || 'Registration failed');
+    }
 
-    // Auto-login after successful registration
-    setToken(res.data.token);
-    setUser(res.data.user);
-    localStorage.setItem("token", res.data.token);
-    console.log(res.data);
   };
 
   const logout = () => {

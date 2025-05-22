@@ -39,18 +39,6 @@ export default function RegisterPage() {
 
   return (
     <div className='min-h-screen flex flex-col items-center justify-center py-8'>
-      <button
-        onClick={() => {
-          if (document.documentElement.classList.contains('dark')) {
-            document.documentElement.classList.remove('dark');
-          } else {
-            document.documentElement.classList.add('dark');
-          }
-        }}
-      >
-        Toggle Dark Mode
-      </button>
-
       <form
         onSubmit={handleSubmit(onSubmit)}
         className="flex flex-col gap-[80px] bg-white dark:bg-zinc-900 max-w-[380px] w-full p-6 rounded-3xl border border-sky-500 dark:border-zinc-700"

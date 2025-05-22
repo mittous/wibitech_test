@@ -6,8 +6,8 @@ import { Button } from '@/components/ui/Button';
 import { FormTitle } from '@/components/ui/FormTitle';
 import { useAuth } from '@/context/AuthContext';
 import { toast } from 'react-toastify';
-import ImageWrapper from '@/components/ui/ImageWrapper';
 import Link from 'next/link';
+import TaskiLogo from '@/components/ui/TaskiLogo';
 
 type LoginFormData = {
   username: string;
@@ -33,39 +33,12 @@ export default function LoginPage() {
 
   return (
     <div className='min-h-screen flex flex-col items-center justify-center py-8'>
-      <button
-        onClick={() => {
-          if (document.documentElement.classList.contains('dark')) {
-            document.documentElement.classList.remove('dark');
-          } else {
-            document.documentElement.classList.add('dark');
-          }
-        }}
-      >
-        Toggle Dark Mode
-      </button>
-
       <form
         onSubmit={handleSubmit(onSubmit)}
         className=" flex flex-col gap-[80px] bg-white  dark:bg-zinc-900  max-w-[380px] w-full  p-6  rounded-3xl border border-sky-500 dark:border-zinc-700 "
       >
         <div className="flex items-center justify-center">
-          <ImageWrapper
-            src="/logo.svg"
-            alt="taski Logo"
-            width={100}
-            height={40}
-            className="dark:hidden"
-            isSvg={true}
-          />
-          <ImageWrapper
-            src="/logo_darkMode.svg"
-            alt="taski Logo"
-            width={100}
-            height={40}
-            className="dark:block hidden"
-            isSvg={true}
-          />
+          <TaskiLogo />
         </div>
 
         <div className="flex flex-col items-center justify-center w-full">
