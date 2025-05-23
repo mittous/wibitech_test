@@ -12,7 +12,8 @@ function TasksPage() {
 	const { tasks } = useTasks();
 	const { users } = useUsers();
 	
-	console.log(users);
+	console.log("users", users);
+	console.log("tasks", tasks);
 
 	return (
 		<div className="pt-[150px]">

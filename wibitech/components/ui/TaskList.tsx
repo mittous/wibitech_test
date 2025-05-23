@@ -7,7 +7,7 @@ interface TaskListProps {
 }
 
 const TaskList: React.FC<TaskListProps> = ({ onEdit }) => {
-  const { tasks, deleteTask, toggleTaskStatus, loading } = useTasks();
+  const { tasks, deleteTask, toggleTask, loading } = useTasks();
 
   return (
     <div className="space-y-4">
@@ -41,7 +41,7 @@ const TaskList: React.FC<TaskListProps> = ({ onEdit }) => {
             </button>
             <button
               className={`ml-2 px-4 py-2 rounded-lg font-semibold text-white transition-colors duration-150 ${task.status === 'completed' ? 'bg-green-500' : 'bg-blue-500 hover:bg-blue-600'}`}
-              onClick={() => toggleTaskStatus(task.id)}
+              onClick={() => toggleTask(task.id)}
               disabled={loading}
             >
               {task.status === 'completed' ? 'Completed' : 'Done'}

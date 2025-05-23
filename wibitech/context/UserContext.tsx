@@ -1,7 +1,6 @@
-// context/UserContext.tsx
 'use client';
 
-import { createContext, useContext, useEffect, useState, ReactNode, useCallback } from 'react';
+import { createContext, useContext, useEffect, useState, ReactNode } from 'react';
 import axios from '@/lib/api';
 import { useAuth } from './AuthContext';
 import { toast } from 'react-toastify';
@@ -14,38 +13,34 @@ export type AppUser = {
 
 interface UserContextType {
   users: AppUser[];
-  fetchUsers: () => Promise<void>;
 }
 
 const UserContext = createContext<UserContextType | undefined>(undefined);
 
 export const UserProvider = ({ children }: { children: ReactNode }) => {
   const [users, setUsers] = useState<AppUser[]>([]);
-  const { token } = useAuth();
+  const { token, user } = useAuth(); // get both token and user from auth
 
-  console.log("token", token);
-
-  const fetchUsers = useCallback(async () => {
-    try {
-      const res = await axios.get('/users', {
-        headers: { Authorization: `Bearer ${token}` },
-      });
-      setUsers(res.data);
-    } catch (error: any) {
-      console.error('Failed to fetch users:', error);
-      toast.error(error.response?.data?.message || 'Could not fetch users');
-    }
-  }, [token]);
-  
   useEffect(() => {
-    if (token) {
+    const fetchUsers = async () => {
+      try {
+        const res = await axios.get('/users', {
+          headers: { Authorization: `Bearer ${token}` },
+        });
+        setUsers(res.data);
+      } catch (error: any) {
+        console.error('Failed to fetch users:', error);
+        toast.error(error.response?.data?.message || 'Could not fetch users');
+      }
+    };
+
+    if (token && user?.role === 'admin') {
       fetchUsers();
     }
-  }, [token, fetchUsers]);
-
+  }, [token, user]);
 
   return (
-    <UserContext.Provider value={{ users, fetchUsers }}>
+    <UserContext.Provider value={{ users }}>
       {children}
     </UserContext.Provider>
   );
