@@ -9,25 +9,28 @@ interface AddTaskModalProps {
   onClose: () => void;
   users?: string[];
   taskToEdit?: Task | null;
+  defaultAssignee?: string;
 }
 
 const AddTaskModal: React.FC<AddTaskModalProps> = ({
   open,
   onClose,
   users = [],
-  taskToEdit
+  taskToEdit,
+  defaultAssignee
 }) => {
   const { addTask, editTask, loading } = useTasks();
   const { user } = useAuth();
   const [title, setTitle] = useState('');
   const [assignedTo, setAssignedTo] = useState('');
   const [description, setDescription] = useState('');
+  const [showDropdown, setShowDropdown] = useState(false);
   const [error, setError] = useState('');
 
   const isAdmin = user?.role === 'admin';
   const filteredUsers = users.filter(username => !username.includes('admin'));
 
-  // Populate form when taskToEdit changes
+  // Populate form when taskToEdit changes or default assignee is provided
   useEffect(() => {
     if (taskToEdit) {
       setTitle(taskToEdit.title);
@@ -36,10 +39,10 @@ const AddTaskModal: React.FC<AddTaskModalProps> = ({
     } else {
       // Reset form when not editing
       setTitle('');
-      setAssignedTo(isAdmin ? '' : user?.username || '');
+      setAssignedTo(defaultAssignee || (isAdmin ? '' : user?.username || ''));
       setDescription('');
     }
-  }, [taskToEdit, user, isAdmin]);
+  }, [taskToEdit, user, isAdmin, defaultAssignee]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();

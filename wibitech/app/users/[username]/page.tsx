@@ -1,0 +1,123 @@
+'use client';
+
+import React, { useEffect, useState } from 'react';
+import { useParams, useRouter } from 'next/navigation';
+import Image from 'next/image';
+import { useTasks } from '@/context/TaskContext';
+import { useUsers } from '@/context/UserContext';
+import { useAuth } from '@/context/AuthContext';
+import TaskList from '@/components/ui/TaskList';
+import AddTaskModal from '@/components/ui/AddTaskModal';
+import TasksHeader from '@/components/ui/TasksHeader';
+import { FiArrowLeft } from 'react-icons/fi';
+import { Task } from '@/context/TaskContext';
+
+const UserProfilePage = () => {
+  const params = useParams();
+  const router = useRouter();
+  const username = params.username as string;
+  const { tasks } = useTasks();
+  const { users } = useUsers();
+  const { user: currentUser } = useAuth();
+  const [userTasks, setUserTasks] = useState([]);
+  const [isEditModalOpen, setEditModalOpen] = useState(false);
+  const [isAddModalOpen, setAddModalOpen] = useState(false);
+  const [taskToEdit, setTaskToEdit] = useState<Task | null>(null);
+  
+  // Check if viewing own profile
+  const isOwnProfile = currentUser?.username === username;
+  
+  // Find user info
+  const user = users.find(user => user.username === username);
+  const isAdmin = currentUser?.role === 'admin';
+  const avatarSrc = isAdmin ? "/adminAvatar.png" : "/userAvatar.png";
+  
+  // Filter tasks for this user
+  useEffect(() => {
+    if (tasks && tasks.length > 0) {
+      const filteredTasks = tasks.filter(task => task.assignedTo === username);
+      setUserTasks(filteredTasks);
+    }
+  }, [tasks, username]);
+  
+  // Handle back button click
+  const handleBack = () => {
+    router.back();
+  };
+  
+  // Handle edit task
+  const handleEditTask = (taskId: string) => {
+    const task = tasks.find(t => t.id === taskId);
+    if (task) {
+      setTaskToEdit(task);
+      setEditModalOpen(true);
+    }
+  };
+  
+  // Handle close modal
+  const handleCloseModal = () => {
+    setEditModalOpen(false);
+    setAddModalOpen(false);
+    setTaskToEdit(null);
+  };
+  
+  return (
+    <div className="pt-[150px]">
+      {/* Back Button */}
+      <div className="flex items-center mb-6">
+        <button 
+          onClick={handleBack} 
+          className="flex items-center gap-2 text-blue-500 hover:underline"
+        >
+          <FiArrowLeft size={16} />
+          <span>Back to Tasks</span>
+        </button>
+      </div>
+      
+      {/* User Profile Header - Sticky like TasksHeader */}
+      <div className="mb-8 sticky top-[100px] bg-white dark:bg-gray-900 z-10 pb-4">
+        <div className="flex items-center gap-4 mb-4">
+          <div className="relative w-16 h-16 rounded-full overflow-hidden">
+            <Image
+              src={avatarSrc}
+              alt={`${username}'s avatar`}
+              fill
+              className="object-cover"
+            />
+          </div>
+          <div>
+            <h1 className="text-2xl font-bold">
+              @{username}
+            </h1>
+            <span className="text-sm text-gray-500 dark:text-gray-400 capitalize">
+              {user?.role || 'user'}
+            </span>
+          </div>
+        </div>
+        
+        <h2 className="text-xl font-semibold">
+          {isOwnProfile ? 'My Tasks' : `${username}'s Tasks`}
+        </h2>
+      </div>
+      
+      {/* User Tasks Section */}
+      <TaskList 
+        tasks={userTasks} 
+        hideAddTask={false} // Show add task button
+        onEdit={handleEditTask}
+        onAddTask={() => setAddModalOpen(true)}
+      />
+      
+      {/* Task Modal (Edit/Add) */}
+      <AddTaskModal
+        open={isEditModalOpen || isAddModalOpen}
+        onClose={handleCloseModal}
+        users={users.map(user => user.username)}
+        taskToEdit={taskToEdit}
+        defaultAssignee={username} // Pre-fill the assignee with the profile username
+      />
+    </div>
+  );
+};
+
+export default UserProfilePage; 

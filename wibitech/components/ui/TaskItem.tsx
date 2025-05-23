@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import Image from 'next/image';
+import Link from 'next/link';
 import { FiChevronUp } from 'react-icons/fi';
 import { useAuth } from '@/context/AuthContext';
 import { Task } from '@/context/TaskContext';
@@ -25,6 +26,9 @@ const TaskItem: React.FC<TaskItemProps> = ({
 	const isAdmin = user?.role === 'admin';
 	const isCompleted = task.status === 'done';
 	
+	// Check if there are any actions available
+	const hasActions = (!isCompleted) || (isAdmin); // Either task is not completed OR user is admin
+
 	// Determine avatar image based on user role
 	const avatarSrc = isAdmin ? "/adminAvatar.png" : "/userAvatar.png";
 
@@ -36,15 +40,17 @@ const TaskItem: React.FC<TaskItemProps> = ({
 				</div>
 			)}
 			<div className="flex-1 gap-2">
-				<TruncatedText 
-					text={`@${task.assignedTo}`}
-					className="text-xs text-sky-500 dark:text-blue-400 leading-3 font-normal mb-1"
-					maxWidth={{ 
-						default: 'max-w-[100px]', 
-						xs: 'xs:max-w-[120px]', 
-						sm: 'sm:max-w-[150px]' 
-					}}
-				/>
+				<Link href={`/users/${task.assignedTo}`}>
+					<TruncatedText 
+						text={`@${task.assignedTo}`}
+						className="text-xs text-sky-500 dark:text-blue-400 leading-3 font-normal mb-1 hover:underline cursor-pointer"
+						maxWidth={{ 
+							default: 'max-w-[100px]', 
+							xs: 'xs:max-w-[120px]', 
+							sm: 'sm:max-w-[150px]' 
+						}}
+					/>
+				</Link>
 				
 				<TruncatedText 
 					text={task.title}
@@ -70,6 +76,7 @@ const TaskItem: React.FC<TaskItemProps> = ({
 				/>
 			</div>
 
+			{/* Desktop actions (visible on hover) */}
 			<div className="hidden md:flex items-center space-x-[10px] ml-4 opacity-0 group-hover:opacity-100 transition-opacity duration-200">
 				{!isCompleted && (
 					<button
@@ -106,8 +113,8 @@ const TaskItem: React.FC<TaskItemProps> = ({
 				)}
 			</div>
 
-			{/* Mobile toggle button - only show if there are actions available */}
-			{(!isCompleted || (isCompleted && isAdmin)) && (
+			{/* Mobile toggle button - only show if any actions are available */}
+			{hasActions && (
 				<button
 					className="md:hidden absolute bottom-2 right-2 p-2 bg-gray-200 dark:bg-gray-700 rounded-full"
 					onClick={() => setExpanded(!expanded)}
@@ -119,9 +126,10 @@ const TaskItem: React.FC<TaskItemProps> = ({
 				</button>
 			)}
 
-			{/* Mobile expanded actions - use the same order as desktop */}
-			{expanded && isAdmin && (
+			{/* Mobile expanded actions */}
+			{expanded && (
 				<div className="md:hidden absolute bottom-12 right-2 flex flex-row bg-white dark:bg-gray-700 rounded-lg shadow-lg p-2 space-x-[10px]">
+					{/* Edit button - only show if task is not completed */}
 					{!isCompleted && (
 						<button
 							className="p-2 hover:bg-gray-100 dark:hover:bg-gray-600 rounded-full"
@@ -131,7 +139,8 @@ const TaskItem: React.FC<TaskItemProps> = ({
 							<Image src="/Edit_Icon.svg" alt="Edit" width={20} height={20} />
 						</button>
 					)}
-
+					
+					{/* Delete button - only show for admin users */}
 					{isAdmin && (
 						<button
 							className="p-2 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-full"
@@ -142,7 +151,8 @@ const TaskItem: React.FC<TaskItemProps> = ({
 							<Image src="/Delet_Icon.svg" alt="Delete" width={20} height={20} />
 						</button>
 					)}
-
+					
+					{/* Done button - only show if task is not completed */}
 					{!isCompleted && (
 						<button
 							className="p-2 rounded-full bg-blue-500 hover:bg-blue-600 dark:bg-blue-600 dark:hover:bg-blue-700"
