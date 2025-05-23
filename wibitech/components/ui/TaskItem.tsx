@@ -120,7 +120,7 @@ const TaskItem: React.FC<TaskItemProps> = ({
 			)}
 
 			{/* Mobile expanded actions - use the same order as desktop */}
-			{expanded && (
+			{expanded && isAdmin && (
 				<div className="md:hidden absolute bottom-12 right-2 flex flex-row bg-white dark:bg-gray-700 rounded-lg shadow-lg p-2 space-x-[10px]">
 					{!isCompleted && (
 						<button

@@ -20,7 +20,24 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
               {children}
             </UserProvider>
           </TaskProvider>
-          <ToastContainer />
+          <ToastContainer 
+            position="bottom-right"
+            autoClose={3000}
+            hideProgressBar={false}
+            newestOnTop={false}
+            closeOnClick
+            rtl={false}
+            pauseOnFocusLoss
+            draggable
+            pauseOnHover
+            theme="light"
+            style={{ fontSize: '0.875rem' }}
+            toastStyle={{ 
+              maxWidth: '300px',
+              padding: '8px 12px',
+              fontSize: '0.875rem'
+            }}
+          />
         </AuthProvider>
       </body>
     </html>
