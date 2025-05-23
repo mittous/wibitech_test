@@ -16,10 +16,9 @@ interface AuthContextType {
   token: string | null;
   login: (username: string, password: string) => Promise<void>;
   logout: () => void;
-  register: (data: RegisterPayload) => Promise<void>; // <-- New
+  register: (data: RegisterPayload) => Promise<void>;
 }
 
-// Payload shape for registration
 interface RegisterPayload {
   fullName: string;
   username: string;
@@ -34,25 +33,30 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const [token, setToken] = useState<string | null>(null);
   const router = useRouter();
 
-
-  // to-do useeffect for checking if the user is already logged in
-
   useEffect(() => {
-    const token = localStorage.getItem('token');
-    const user = localStorage.getItem('user');
-    if (token && user) {
-      setToken(token);
-      setUser(JSON.parse(user));
+    const storedToken = localStorage.getItem('token');
+    const storedUser = localStorage.getItem('user');
+    if (storedToken && storedUser) {
+      setToken(storedToken);
+      setUser(JSON.parse(storedUser));
     }
   }, []);
-  
+
   const login = async (username: string, password: string) => {
     try {
       const res = await axios.post('/login', { username, password });
-      const token = res.data.token;
+
+      let token = res.data.token;
       const user = res.data.user;
 
-      localStorage.setItem('token', token);// the best practice it use it in cokies but it was asked in the task tst
+      // If token is embedded in user object, extract and clean it
+      if (!token && user?.token) {
+        // support for token nested in user
+        token = user.token;
+        delete user.token;
+      }
+
+      localStorage.setItem('token', token);
       localStorage.setItem('user', JSON.stringify(user));
 
       setToken(token);
@@ -66,18 +70,15 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     }
   };
 
-  // Register logic 
   const register = async (data: RegisterPayload) => {
     try {
-      const res = await axios.post("https://recruter-backend.vercel.app/api/register", data);
-      login(data.username, data.password);
+      await axios.post("https://recruter-backend.vercel.app/api/register", data);
+      await login(data.username, data.password);
       toast.success('Registration successful');
-      router.push('/tasks');
     } catch (error: any) {
       console.log(error);
       toast.error(error.response?.data?.message || 'Registration failed');
     }
-
   };
 
   const logout = () => {
