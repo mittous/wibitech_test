@@ -6,14 +6,14 @@ import { useAuth } from '@/context/AuthContext';
 import { FiEdit2, FiTrash2 } from 'react-icons/fi';
 
 interface TaskListProps {
-  onEdit?: (taskId: number) => void;
+  onEdit?: (taskId: string) => void;
+  onAddTask?: () => void; // new prop
 }
 
-const TaskList: React.FC<TaskListProps> = ({ onEdit }) => {
+const TaskList: React.FC<TaskListProps> = ({ onEdit, onAddTask }) => {
   const { tasks, deleteTask, toggleTask, loading } = useTasks();
   const { user } = useAuth();
 
-  // Filter tasks based on user role
   const visibleTasks = user?.role === 'admin'
     ? tasks
     : tasks.filter(task => task.assignedTo === user?.username);
@@ -42,7 +42,6 @@ const TaskList: React.FC<TaskListProps> = ({ onEdit }) => {
               title="Edit"
               onClick={() => onEdit && onEdit(task.id)}
             >
-              <FiEdit2 className="text-gray-500" />
             </button>
             <button
               className="p-2 hover:bg-red-50 rounded"
@@ -53,9 +52,8 @@ const TaskList: React.FC<TaskListProps> = ({ onEdit }) => {
               <FiTrash2 className="text-red-500" />
             </button>
             <button
-              className={`ml-2 px-4 py-2 rounded-lg font-semibold text-white transition-colors duration-150 ${
-                task.status === 'completed' ? 'bg-green-500' : 'bg-blue-500 hover:bg-blue-600'
-              }`}
+              className={`ml-2 px-4 py-2 rounded-lg font-semibold text-white transition-colors duration-150 ${task.status === 'completed' ? 'bg-green-500' : 'bg-blue-500 hover:bg-blue-600'
+                }`}
               onClick={() => toggleTask(task.id)}
               disabled={loading}
             >
@@ -65,11 +63,19 @@ const TaskList: React.FC<TaskListProps> = ({ onEdit }) => {
         </div>
       ))}
 
+      <div
+        onClick={onAddTask}
+        className="flex items-center px-5 py-4 border-2 border-dashed border-gray-300 rounded-xl cursor-pointer hover:bg-gray-50 transition"
+      >
+        <span className="text-gray-400 text-sm font-medium">＋ Add a new task...</span>
+      </div>
+
       {visibleTasks.length === 0 && !loading && (
         <div className="text-center text-gray-400 py-8">No tasks found.</div>
       )}
     </div>
   );
 };
+
 
 export default TaskList;
