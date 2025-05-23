@@ -11,11 +11,11 @@ interface AddTaskModalProps {
   taskToEdit?: Task | null;
 }
 
-const AddTaskModal: React.FC<AddTaskModalProps> = ({ 
-  open, 
-  onClose, 
-  users = [], 
-  taskToEdit 
+const AddTaskModal: React.FC<AddTaskModalProps> = ({
+  open,
+  onClose,
+  users = [],
+  taskToEdit
 }) => {
   const { addTask, editTask, loading } = useTasks();
   const { user } = useAuth();
@@ -23,7 +23,7 @@ const AddTaskModal: React.FC<AddTaskModalProps> = ({
   const [assignedTo, setAssignedTo] = useState('');
   const [description, setDescription] = useState('');
   const [error, setError] = useState('');
-  
+
   const isAdmin = user?.role === 'admin';
   const filteredUsers = users.filter(username => !username.includes('admin'));
 
@@ -63,7 +63,7 @@ const AddTaskModal: React.FC<AddTaskModalProps> = ({
         status: 'in_progress',
       });
     }
-    
+
     setTitle('');
     setAssignedTo('');
     setDescription('');
@@ -73,34 +73,36 @@ const AddTaskModal: React.FC<AddTaskModalProps> = ({
   if (!open) return null;
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 dark:bg-opacity-70">
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-zinc-100/60 bg-opacity-50 dark:bg-opacity-70">
       <form
         onSubmit={handleSubmit}
-        className="bg-white dark:bg-gray-800 rounded-2xl shadow-xl p-8 w-full max-w-md relative"
-        style={{ minWidth: 400 }}
+        className="bg-white dark:bg-gray-800 rounded-2xl shadow-[0px_15px_25px_0px_rgba(0,0,0,0.05)] p-8 w-full max-w-[600px] relative  "
+        /* style={{ minWidth: 400 }} */
       >
-        <div className="flex items-center justify-between mb-4">
-          <label className="font-semibold text-gray-800 dark:text-gray-100">Task title</label>
-          {isAdmin && (
-            <label className="font-semibold text-gray-800 dark:text-gray-100">Assign to</label>
-          )}
-        </div>
-        <div className="flex items-center gap-4 mb-4">
-          <input
-            className="flex-1 bg-gray-100 dark:bg-gray-700 rounded-lg px-4 py-2 outline-none text-gray-700 dark:text-gray-200 placeholder-gray-400 dark:placeholder-gray-500"
-            placeholder="What's in your mind?"
-            value={title}
-            onChange={e => setTitle(e.target.value)}
-            required
-          />
-          
-          {isAdmin ? (
-            <AssigneeDropdown 
-              users={filteredUsers} 
-              value={assignedTo} 
-              onChange={setAssignedTo} 
+        <div className="flex flex-col min-[425px]:flex-row gap-4 mb-4">
+          <div className="w-full">
+            <label className="block font-semibold text-gray-800 dark:text-gray-100 mb-2">Task title</label>
+            <input
+              className="w-full bg-gray-100 dark:bg-gray-700 rounded-lg px-4 py-2 outline-none text-gray-700 dark:text-gray-200 placeholder-gray-400 dark:placeholder-gray-500"
+              placeholder="What's in your mind?"
+              value={title}
+              onChange={e => setTitle(e.target.value)}
+              required
             />
-          ) : (
+          </div>
+
+          {isAdmin && (
+            <div className="w-full">
+              <label className="block font-semibold text-gray-800 dark:text-gray-100 mb-2">Assign to</label>
+              <AssigneeDropdown
+                users={filteredUsers}
+                value={assignedTo}
+                onChange={setAssignedTo}
+              />
+            </div>
+          )}
+
+          {!isAdmin && (
             <input
               type="hidden"
               value={user?.username || ''}
@@ -108,17 +110,17 @@ const AddTaskModal: React.FC<AddTaskModalProps> = ({
             />
           )}
         </div>
-        
+
         <label className="block font-semibold text-gray-800 dark:text-gray-100 mb-2">Description</label>
         <textarea
           className="w-full bg-gray-100 dark:bg-gray-700 rounded-lg px-4 py-2 h-24 resize-none outline-none text-gray-700 dark:text-gray-200 placeholder-gray-400 dark:placeholder-gray-500 mb-6"
-          placeholder="Description"
+          placeholder="Note: Add relevant details, blockers, or context for this task here."
           value={description}
           onChange={e => setDescription(e.target.value)}
         />
-        
+
         {error && <div className="text-red-500 text-sm mb-2">{error}</div>}
-        
+
         <div className="flex justify-end gap-3">
           <button
             type="button"

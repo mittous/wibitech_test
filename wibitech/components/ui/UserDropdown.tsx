@@ -10,7 +10,11 @@ export function UserDropdown() {
   const [open, setOpen] = useState(false);
   const [isDark, setIsDark] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
-  const { logout } = useAuth();
+  const { logout, user } = useAuth();
+  
+  // Determine avatar image based on user role
+  const isAdmin = user?.role === 'admin';
+  const avatarSrc = isAdmin ? "/adminAvatar.png" : "/userAvatar.png";
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -43,8 +47,8 @@ export function UserDropdown() {
         aria-label="Toggle user menu"
       >
         <Image
-          src="/adminAvatar.svg"
-          alt="Avatar"
+          src={avatarSrc}
+          alt={isAdmin ? "Admin Avatar" : "User Avatar"}
           width={40}
           height={40}
           className="rounded-full border border-gray-300 dark:border-zinc-600"
@@ -53,6 +57,10 @@ export function UserDropdown() {
 
       {open && (
         <div className="absolute right-0 mt-2 w-48 bg-white dark:bg-zinc-800 shadow-md rounded-lg overflow-hidden z-50">
+          <div className="px-4 py-2 border-b border-gray-200 dark:border-zinc-700">
+            <p className="text-sm font-medium">{user?.username}</p>
+            <p className="text-xs text-gray-500 dark:text-gray-400 capitalize">{user?.role}</p>
+          </div>
           <button
             onClick={toggleDark}
             className="w-full text-left px-4 py-2 hover:bg-gray-100 dark:hover:bg-zinc-700 flex items-center gap-2"

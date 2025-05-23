@@ -22,7 +22,7 @@ const TaskList: React.FC<TaskListProps> = ({ onEdit, onAddTask }) => {
   return (
     <div className="flex flex-col">
       <div className="max-h-[calc(100vh-400px)] overflow-y-auto pr-2 mb-4">
-        <div className="flex flex-col gap-4">
+        <div className="flex flex-col gap-4 mt-12">
           {visibleTasks.map((task) => (
             <TaskItem
               key={task.id}
@@ -44,7 +44,7 @@ const TaskList: React.FC<TaskListProps> = ({ onEdit, onAddTask }) => {
         <div className="border-t border-gray-200 dark:border-gray-800 pt-4">
           <div
             onClick={onAddTask}
-            className="flex items-center gap-2 px-4 py-3 border-2 border-dashed border-gray-300 dark:border-gray-700 rounded-xl cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-800 transition"
+            className="flex items-center gap-2 px-4 py-3 border-gray-300 dark:border-gray-700 rounded-xl cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-800 transition"
           >
             <Image src="/AddTask_Icon.svg" alt="Add" width={20} height={20} />
             <span className="text-gray-400 dark:text-gray-500 text-sm font-medium">Add a new task...</span>
