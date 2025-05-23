@@ -76,7 +76,7 @@ export const TaskProvider = ({ children }: { children: ReactNode }) => {
     setLoading(true);
     setError(null);
     try {
-      await axios.patch(`/tasks/${id}`, updatedFields);
+      await axios.put(`/tasks/${id}`, updatedFields);
       toast.success('Task updated');
       await fetchTasks();
     } catch (err: any) {
