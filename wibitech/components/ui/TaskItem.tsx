@@ -72,12 +72,6 @@ const TaskItem: React.FC<TaskItemProps> = ({
             <Image src="/Delet_Icon.svg" alt="Delete" width={20} height={20} />
           </button>
         )}
-        
-        {isCompleted && !isAdmin && (
-          <div className="ml-2 px-4 py-2 rounded-lg font-semibold text-white bg-green-500 dark:bg-green-600">
-            Completed
-          </div>
-        )}
       </div>
       
       {/* Mobile toggle button - only show if there are actions available */}
@@ -95,7 +89,7 @@ const TaskItem: React.FC<TaskItemProps> = ({
       
       {/* Mobile expanded actions */}
       {expanded && (
-        <div className="md:hidden absolute bottom-12 right-2 flex flex-col bg-white dark:bg-gray-700 rounded-lg shadow-lg p-2 space-y-2">
+        <div className="md:hidden absolute bottom-12 right-2 flex flex-row bg-white dark:bg-gray-700 rounded-lg shadow-lg p-2 space-x-2">
           {!isCompleted && (
             <>
               <button
@@ -111,7 +105,7 @@ const TaskItem: React.FC<TaskItemProps> = ({
                 onClick={() => onToggleStatus(task.id)}
                 disabled={loading}
               >
-                <span className="text-white">✓</span>
+                <Image src="/CheckCircle_Icon.svg" alt="Done" width={20} height={20} />
               </button>
             </>
           )}
