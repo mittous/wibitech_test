@@ -9,7 +9,7 @@ export type Task = {
   id: string;
   title: string;
   description: string;
-  status: string;
+  status: 'in_progress' | 'done';
   assignedTo: string;
   completed: boolean;
 };
@@ -105,7 +105,12 @@ export const TaskProvider = ({ children }: { children: ReactNode }) => {
   const toggleTask = async (id: string) => {
     const task = tasks.find((t) => t.id === id);
     if (!task) return;
-    await editTask(id, { completed: !task.completed });
+    
+    // Update both status and completed properties
+    await editTask(id, { 
+      status: task.status === 'done' ? 'in_progress' : 'done',
+      completed: !task.completed 
+    });
   };
 
   useEffect(() => {
