@@ -1,9 +1,8 @@
-// context/TaskContext.tsx
 'use client';
 
-import { createContext, useContext, useEffect, useState, ReactNode } from 'react';
+import { createContext, useContext, useState, useEffect, ReactNode } from 'react';
 import axios from '@/lib/api';
-import { useAuth } from './AuthContext';
+import { useAuth } from '@/context/AuthContext';
 import { toast } from 'react-toastify';
 
 export type Task = {
@@ -15,96 +14,119 @@ export type Task = {
   completed: boolean;
 };
 
-interface TaskContextType {
+type TaskContextType = {
   tasks: Task[];
+  loading: boolean;
+  error: string | null;
+  status: string | null;
   fetchTasks: () => Promise<void>;
   addTask: (task: Omit<Task, 'id' | 'completed'>) => Promise<void>;
-  editTask: (id: string, updates: Partial<Task>) => Promise<void>;
+  editTask: (id: string, updatedFields: Partial<Task>) => Promise<void>;
   deleteTask: (id: string) => Promise<void>;
   toggleTask: (id: string) => Promise<void>;
-}
+};
 
 const TaskContext = createContext<TaskContextType | undefined>(undefined);
 
+export const useTasks = () => {
+  const context = useContext(TaskContext);
+  if (!context) {
+    throw new Error('useTasks must be used within a TaskProvider');
+  }
+  return context;
+};
+
 export const TaskProvider = ({ children }: { children: ReactNode }) => {
   const [tasks, setTasks] = useState<Task[]>([]);
+  const [loading, setLoading] = useState<boolean>(false);
+  const [error, setError] = useState<string | null>(null);
+  const [status, setStatus] = useState<string | null>(null);
   const { token } = useAuth();
 
-  useEffect(() => {
-    if (token) {
-      fetchTasks();
-    }
-  }, [token]);
-
   const fetchTasks = async () => {
+    setLoading(true);
+    setError(null);
     try {
-      const res = await axios.get('/tasks', {
-        headers: { Authorization: `Bearer ${token}` },
-      });
+      const res = await axios.get('/tasks');
       setTasks(res.data);
-    } catch (error: any) {
-      console.error('Failed to fetch tasks:', error);
-      toast.error(error.response?.data?.message || 'Could not fetch tasks');
+    } catch (err: any) {
+      setError('Failed to fetch tasks');
+      console.error(err);
+    } finally {
+      setLoading(false);
     }
   };
 
   const addTask = async (task: Omit<Task, 'id' | 'completed'>) => {
+    setLoading(true);
+    setError(null);
     try {
-      await axios.post('/tasks', task, {
-        headers: { Authorization: `Bearer ${token}` },
-      });
+      await axios.post('/tasks', task);
       toast.success('Task added');
-      fetchTasks();
-    } catch (error: any) {
-      console.error('Failed to add task:', error);
-      toast.error(error.response?.data?.message || 'Could not add task');
+      await fetchTasks();
+    } catch (err: any) {
+      setError('Failed to add task');
+      toast.error('Failed to add task');
+    } finally {
+      setLoading(false);
     }
   };
 
-  const editTask = async (id: string, updates: Partial<Task>) => {
+  const editTask = async (id: string, updatedFields: Partial<Task>) => {
+    setLoading(true);
+    setError(null);
     try {
-      await axios.patch(`/tasks/${id}`, updates, {
-        headers: { Authorization: `Bearer ${token}` },
-      });
+      await axios.patch(`/tasks/${id}`, updatedFields);
       toast.success('Task updated');
-      fetchTasks();
-    } catch (error: any) {
-      console.error('Failed to edit task:', error);
-      toast.error(error.response?.data?.message || 'Could not update task');
+      await fetchTasks();
+    } catch (err: any) {
+      setError('Failed to update task');
+      toast.error('Failed to update task');
+    } finally {
+      setLoading(false);
     }
   };
 
   const deleteTask = async (id: string) => {
+    setLoading(true);
+    setError(null);
     try {
-      await axios.delete(`/tasks/${id}`, {
-        headers: { Authorization: `Bearer ${token}` },
-      });
+      await axios.delete(`/tasks/${id}`);
+      setTasks((prev) => prev.filter((task) => task.id !== id));
       toast.success('Task deleted');
-      setTasks(prev => prev.filter(t => t.id !== id));
-    } catch (error: any) {
-      console.error('Failed to delete task:', error);
-      toast.error(error.response?.data?.message || 'Could not delete task');
+    } catch (err: any) {
+      setError('Failed to delete task');
+      toast.error('Failed to delete task');
+    } finally {
+      setLoading(false);
     }
   };
 
   const toggleTask = async (id: string) => {
-    const task = tasks.find(t => t.id === id);
+    const task = tasks.find((t) => t.id === id);
     if (!task) return;
-
     await editTask(id, { completed: !task.completed });
   };
 
+  useEffect(() => {
+    if (token) fetchTasks();
+  }, [token]);
+
   return (
     <TaskContext.Provider
-      value={{ tasks, fetchTasks, addTask, editTask, deleteTask, toggleTask }}
+      value={{
+        tasks,
+        loading,
+        error,
+        status,
+        fetchTasks,
+        addTask,
+        editTask,
+        deleteTask,
+        toggleTask,
+      }}
     >
       {children}
     </TaskContext.Provider>
   );
-};
-
-export const useTasks = () => {
-  const ctx = useContext(TaskContext);
-  if (!ctx) throw new Error('useTasks must be used within TaskProvider');
-  return ctx;
 };

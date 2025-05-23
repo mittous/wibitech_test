@@ -1,5 +1,8 @@
+'use client';
+
 import React from 'react';
 import { useTasks } from '@/context/TaskContext';
+import { useAuth } from '@/context/AuthContext';
 import { FiEdit2, FiTrash2 } from 'react-icons/fi';
 
 interface TaskListProps {
@@ -8,10 +11,16 @@ interface TaskListProps {
 
 const TaskList: React.FC<TaskListProps> = ({ onEdit }) => {
   const { tasks, deleteTask, toggleTask, loading } = useTasks();
+  const { user } = useAuth();
+
+  // Filter tasks based on user role
+  const visibleTasks = user?.role === 'admin'
+    ? tasks
+    : tasks.filter(task => task.assignedTo === user?.username);
 
   return (
     <div className="space-y-4">
-      {tasks.map((task) => (
+      {visibleTasks.map((task) => (
         <div
           key={task.id}
           className="flex items-center justify-between bg-gray-50 rounded-xl p-5 shadow-sm border border-gray-200"
@@ -19,9 +28,13 @@ const TaskList: React.FC<TaskListProps> = ({ onEdit }) => {
           <div className="flex-1">
             <div className="text-xs text-blue-600 font-semibold mb-1">@{task.assignedTo}</div>
             <div className="font-bold text-lg text-gray-800 mb-1">{task.title}</div>
-            <div className="text-xs text-gray-400">{task.description || (
-              <span className="italic">Note: Add relevant details, blockers, or context for this task here.</span>
-            )}</div>
+            <div className="text-xs text-gray-400">
+              {task.description || (
+                <span className="italic">
+                  Note: Add relevant details, blockers, or context for this task here.
+                </span>
+              )}
+            </div>
           </div>
           <div className="flex items-center space-x-2 ml-4">
             <button
@@ -40,7 +53,9 @@ const TaskList: React.FC<TaskListProps> = ({ onEdit }) => {
               <FiTrash2 className="text-red-500" />
             </button>
             <button
-              className={`ml-2 px-4 py-2 rounded-lg font-semibold text-white transition-colors duration-150 ${task.status === 'completed' ? 'bg-green-500' : 'bg-blue-500 hover:bg-blue-600'}`}
+              className={`ml-2 px-4 py-2 rounded-lg font-semibold text-white transition-colors duration-150 ${
+                task.status === 'completed' ? 'bg-green-500' : 'bg-blue-500 hover:bg-blue-600'
+              }`}
               onClick={() => toggleTask(task.id)}
               disabled={loading}
             >
@@ -49,11 +64,12 @@ const TaskList: React.FC<TaskListProps> = ({ onEdit }) => {
           </div>
         </div>
       ))}
-      {tasks.length === 0 && !loading && (
+
+      {visibleTasks.length === 0 && !loading && (
         <div className="text-center text-gray-400 py-8">No tasks found.</div>
       )}
     </div>
   );
 };
 
-export default TaskList; 
+export default TaskList;
