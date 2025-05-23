@@ -62,7 +62,7 @@ const UserProfilePage = () => {
   };
   
   return (
-    <div className="pt-[150px]">
+    <div className="pt-[150px] overflow-y-hidden">
       {/* Back Button */}
       <div className="flex items-center mb-6">
         <button 
@@ -74,8 +74,7 @@ const UserProfilePage = () => {
         </button>
       </div>
       
-      {/* User Profile Header - Sticky like TasksHeader */}
-      <div className="mb-8 sticky top-[100px] bg-white dark:bg-gray-900 z-10 pb-4">
+      <div className="mb-2 sticky top-[50px] bg-white dark:bg-gray-900 z-10 pb-4">
         <div className="flex items-center gap-4 mb-4">
           <div className="relative w-16 h-16 rounded-full overflow-hidden">
             <Image
@@ -100,21 +99,19 @@ const UserProfilePage = () => {
         </h2>
       </div>
       
-      {/* User Tasks Section */}
       <TaskList 
         tasks={userTasks} 
-        hideAddTask={false} // Show add task button
+        hideAddTask={false}
         onEdit={handleEditTask}
         onAddTask={() => setAddModalOpen(true)}
       />
       
-      {/* Task Modal (Edit/Add) */}
       <AddTaskModal
         open={isEditModalOpen || isAddModalOpen}
         onClose={handleCloseModal}
         users={users.map(user => user.username)}
         taskToEdit={taskToEdit}
-        defaultAssignee={username} // Pre-fill the assignee with the profile username
+        defaultAssignee={username} // auto fill profile username
       />
     </div>
   );

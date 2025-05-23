@@ -4,25 +4,34 @@ import React from 'react';
 import { useTasks } from '@/context/TaskContext';
 import { useAuth } from '@/context/AuthContext';
 import TaskItem from './TaskItem';
+import { Task } from '@/context/TaskContext';
 import Image from 'next/image';
 interface TaskListProps {
   onEdit?: (taskId: string) => void;
   onAddTask?: () => void;
+  tasks?: Task[]; // Optional custom tasks array
+  hideAddTask?: boolean; // Optional flag to hide add task button
 }
 
-const TaskList: React.FC<TaskListProps> = ({ onEdit, onAddTask }) => {
-  const { tasks, deleteTask, toggleTask, loading } = useTasks();
+const TaskList: React.FC<TaskListProps> = ({ 
+  onEdit, 
+  onAddTask,
+  tasks: customTasks,
+  hideAddTask = false
+}) => {
+  const { tasks: contextTasks, deleteTask, toggleTask, loading } = useTasks();
   const { user } = useAuth();
   const isAdmin = user?.role === 'admin';
 
-  const visibleTasks = isAdmin
-    ? tasks
-    : tasks.filter(task => task.assignedTo === user?.username);
+  // Use custom tasks if provided, otherwise filter from context
+  const visibleTasks = customTasks || (isAdmin 
+    ? contextTasks
+    : contextTasks.filter(task => task.assignedTo === user?.username));
 
   return (
     <div className="flex flex-col">
       <div className="max-h-[calc(100vh-400px)] overflow-y-auto pr-2 mb-4">
-        <div className="flex flex-col gap-4 mt-12">
+        <div className="flex flex-col gap-4 mt-5">
           {visibleTasks.map((task) => (
             <TaskItem
               key={task.id}
