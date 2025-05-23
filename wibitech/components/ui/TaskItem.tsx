@@ -93,6 +93,13 @@ const TaskItem: React.FC<TaskItemProps> = ({
           {!isCompleted && (
             <>
               <button
+                className="p-[12px]  rounded-[16px] bg-blue-500 hover:bg-blue-600 dark:bg-blue-600 dark:hover:bg-blue-700"
+                onClick={() => onToggleStatus(task.id)}
+                disabled={loading}
+              >
+                <Image src="/CheckCircle_Icon.svg" alt="Done" width={20} height={20} />
+              </button>
+              <button
                 className="p-2 hover:bg-gray-100 dark:hover:bg-gray-600 rounded-full"
                 title="Edit"
                 onClick={() => onEdit(task.id)}
@@ -100,13 +107,6 @@ const TaskItem: React.FC<TaskItemProps> = ({
                 <Image src="/Edit_Icon.svg" alt="Edit" width={20} height={20} />
               </button>
               
-              <button
-                className="p-2 rounded-full bg-blue-500 hover:bg-blue-600 dark:bg-blue-600 dark:hover:bg-blue-700"
-                onClick={() => onToggleStatus(task.id)}
-                disabled={loading}
-              >
-                <Image src="/CheckCircle_Icon.svg" alt="Done" width={20} height={20} />
-              </button>
             </>
           )}
           

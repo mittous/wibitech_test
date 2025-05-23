@@ -17,7 +17,7 @@ const TasksPage = () => {
 	const { tasks, loading } = useTasks();
 	const [taskToEdit, setTaskToEdit] = useState<Task | null>(null);
 
-	const tasksNumber = user?.role === 'admin' ? tasks.length : tasks.filter(task => task.assignedTo === user?.id).length;
+	const tasksNumber = user?.role === 'admin' ? tasks.length : tasks.filter(task => task.assignedTo === user?.username).length;
 	
 	const handleEditTask = (taskId: string) => {
 		const task = tasks.find(t => t.id === taskId);
