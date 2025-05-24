@@ -19,7 +19,6 @@ const ImageWrapper: React.FC<ImageWrapperProps> = ({
   isSvg = false,
 }) => {
   if (isSvg) {
-    console.log("src-----------");
     return (
       // eslint-disable-next-line @next/next/no-img-element
       <img

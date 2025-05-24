@@ -51,7 +51,6 @@ export const TaskProvider = ({ children }: { children: ReactNode }) => {
       setTasks(res.data);
     } catch (err: any) {
       setError('Failed to fetch tasks');
-      console.error(err);
     } finally {
       setLoading(false);
     }
