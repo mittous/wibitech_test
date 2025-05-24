@@ -10,7 +10,7 @@ interface TaskListProps {
   onEdit?: (taskId: string) => void;
   onAddTask?: () => void;
   tasks?: Task[]; // Optional custom tasks array
-  hideAddTask?: boolean; // Optional flag to hide add task button
+  hideAddTask?: boolean; // Optional flag to hide add task button for users
 }
 
 const TaskList: React.FC<TaskListProps> = ({ 

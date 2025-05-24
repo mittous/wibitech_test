@@ -100,7 +100,7 @@ const UserProfilePage = () => {
         onClose={handleCloseModal}
         users={users.map(user => user.username)}
         taskToEdit={taskToEdit}
-        defaultAssignee={username} // auto fill profile username
+        defaultAssignee={username} // auto fill profile username if inside the same user
       />
     </div>
   );

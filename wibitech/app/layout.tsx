@@ -1,4 +1,3 @@
-// app/layout.tsx
 import { AuthProvider } from "@/context/AuthContext";
 import 'react-toastify/dist/ReactToastify.css';
 import "./globals.css";

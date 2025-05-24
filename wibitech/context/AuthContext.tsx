@@ -65,6 +65,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       toast.success('Login successful');
       router.push('/tasks');
     } catch (error: any) {
+      console.log(error);
       toast.error(error.response?.data?.message || 'Login failed');
     }
   };
@@ -73,14 +74,11 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     setLoading(true);
     setError(null);
     try {
-      // Make the API call
       const response = await axios.post('/register', userData);
       
-      // Check the response status code
       if (response.status === 201) {
         toast.success('Registration successful!');
         login(userData.username, userData.password);
-        // Return success flag and any data
         return { success: true, data: response.data };
       } else {
         // Any non-201 response that doesn't throw an error
@@ -108,7 +106,6 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         toast.error('Network error. Please check your connection.');
       }
       
-      // Return failure flag
       return { success: false, error: err };
     } finally {
       setLoading(false);

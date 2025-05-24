@@ -26,7 +26,7 @@ export default function LoginPage() {
 
   const onSubmit = async (data: LoginFormData) => {
     try {
-      await login(data.username, data.password); // Call login function
+      await login(data.username, data.password); 
     } catch (error: any) {
       toast.error(error.response?.data?.message || 'Login failed');
     }

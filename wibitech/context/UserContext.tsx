@@ -19,7 +19,7 @@ const UserContext = createContext<UserContextType | undefined>(undefined);
 
 export const UserProvider = ({ children }: { children: ReactNode }) => {
   const [users, setUsers] = useState<AppUser[]>([]);
-  const { token, user } = useAuth(); // get both token and user from auth
+  const { token, user } = useAuth(); 
 
   useEffect(() => {
     const fetchUsers = async () => {
