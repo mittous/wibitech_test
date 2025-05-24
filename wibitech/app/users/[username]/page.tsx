@@ -23,6 +23,10 @@ const UserProfilePage = () => {
   const [isAddModalOpen, setAddModalOpen] = useState(false);
   const [taskToEdit, setTaskToEdit] = useState<Task | null>(null);
   
+  // if (user == null){
+	// 	redirect('/login');
+	// 	return;
+	// }
   // Check if viewing own profile
   const isOwnProfile = currentUser?.username === username;
   
