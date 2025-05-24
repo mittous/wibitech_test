@@ -29,9 +29,9 @@ const UserProfilePage = () => {
   
   // Find user info
   const user = users.find(user => user.username === username);
-  const isAdmin = currentUser?.role === 'admin';
+  const isAdmin = user?.role === 'admin';
   const avatarSrc = isAdmin ? "/adminAvatar.png" : "/userAvatar.png";
-  
+  console.log("currentUser?.role", currentUser?.role)
   // Filter tasks for this user
   useEffect(() => {
     if (tasks && tasks.length > 0) {
@@ -74,7 +74,7 @@ const UserProfilePage = () => {
         </button>
       </div>
       
-      <div className="mb-2 sticky top-[50px] bg-white dark:bg-gray-900 z-10 pb-4">
+      <div className="sticky top-[50px] bg-white dark:bg-gray-900 z-10">
         <div className="flex items-center gap-4 mb-4">
           <div className="relative w-16 h-16 rounded-full overflow-hidden">
             <Image
