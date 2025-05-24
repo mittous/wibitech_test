@@ -8,6 +8,7 @@ import TasksHeader from '@/components/ui/TasksHeader';
 import { useState } from 'react';
 import { useTasks } from '@/context/TaskContext';
 import { Task } from '@/context/TaskContext';
+import { redirect } from 'next/navigation';
 
 const TasksPage = () => {
 	const { user } = useAuth();
@@ -16,6 +17,12 @@ const TasksPage = () => {
 	const [isEditModalOpen, setEditModalOpen] = useState(false);
 	const { tasks } = useTasks();
 	const [taskToEdit, setTaskToEdit] = useState<Task | null>(null);
+
+	if (user == null){
+		redirect('/login');
+		return;
+	}
+		
 
 	const tasksNumber = user?.role === 'admin' ? tasks.length : tasks.filter(task => task.assignedTo === user?.username).length;
 	
