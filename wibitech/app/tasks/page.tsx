@@ -14,7 +14,7 @@ const TasksPage = () => {
 	const { users } = useUsers();
 	const [isAddModalOpen, setAddModalOpen] = useState(false);
 	const [isEditModalOpen, setEditModalOpen] = useState(false);
-	const { tasks, loading } = useTasks();
+	const { tasks } = useTasks();
 	const [taskToEdit, setTaskToEdit] = useState<Task | null>(null);
 
 	const tasksNumber = user?.role === 'admin' ? tasks.length : tasks.filter(task => task.assignedTo === user?.username).length;

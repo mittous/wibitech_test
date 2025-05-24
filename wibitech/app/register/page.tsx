@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
 import { useForm } from "react-hook-form";
@@ -5,10 +6,9 @@ import { TextInput } from "@/components/ui/TextInput";
 import { Button } from "@/components/ui/Button";
 import { FormTitle } from "@/components/ui/FormTitle";
 import { useAuth } from "@/context/AuthContext";
-import { useRouter } from "next/navigation";
 import { toast } from "react-toastify";
-import ImageWrapper from "@/components/ui/ImageWrapper";
 import Link from "next/link";
+import TaskiLogo from "@/components/ui/TaskiLogo";
 
 type RegisterFormInputs = {
   fullName: string;
@@ -19,7 +19,6 @@ type RegisterFormInputs = {
 
 export default function RegisterPage() {
   const { register: registerUser } = useAuth();
-  const router = useRouter();
 
   const {
     register,
@@ -30,10 +29,8 @@ export default function RegisterPage() {
   const onSubmit = async (data: RegisterFormInputs) => {
     try {
       await registerUser(data);
-      router.push("/tasks");
-    } catch (err) {
-      console.error("Registration failed:", err);
-      toast.error("Failed to register");
+    } catch (err: any) {
+      toast.error(err.response?.data?.message || "Failed to register");
     }
   };
 
@@ -43,23 +40,8 @@ export default function RegisterPage() {
         onSubmit={handleSubmit(onSubmit)}
         className="flex flex-col gap-[80px] bg-white dark:bg-zinc-900 max-w-[380px] w-full p-6 rounded-3xl border border-sky-500 dark:border-zinc-700"
       >
-        <div className="flex items-center justify-center">
-          <ImageWrapper
-            src="/logo.svg"
-            alt="taski Logo"
-            width={100}
-            height={40}
-            className="dark:hidden"
-            isSvg={true}
-          />
-          <ImageWrapper
-            src="/logo_darkMode.svg"
-            alt="taski Logo"
-            width={100}
-            height={40}
-            className="dark:block hidden"
-            isSvg={true}
-          />
+       <div className="flex items-center justify-center">
+          <TaskiLogo />
         </div>
 
         <div className="flex flex-col items-center justify-center w-full">

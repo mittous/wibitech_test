@@ -1,7 +1,6 @@
 // components/Navbar.tsx
 "use client";
 
-import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { useState, useEffect } from "react";
 import { Moon, Sun } from "lucide-react";
@@ -30,7 +29,6 @@ export default function Navbar() {
 
 	const isAuthPage = pathname.includes("/login") || pathname.includes("/register");
 
-	console.log("isAuthPage", isAuthPage);
 	return ( 
 		<nav className={`sm:px-[100px] px-[15px] py-[50px] w-full flex justify-between items-center fixed top-0 left-0 z-50  ${isAuthPage ? "" : "bg-white dark:bg-zinc-900"}`}>
 			{isAuthPage ? (

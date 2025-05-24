@@ -106,7 +106,6 @@ export const TaskProvider = ({ children }: { children: ReactNode }) => {
     const task = tasks.find((t) => t.id === id);
     if (!task) return;
     
-    // Update both status and completed properties
     await editTask(id, { 
       status: task.status === 'done' ? 'in_progress' : 'done',
       completed: !task.completed 

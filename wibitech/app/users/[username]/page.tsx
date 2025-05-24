@@ -2,15 +2,14 @@
 
 import React, { useEffect, useState } from 'react';
 import { useParams, useRouter } from 'next/navigation';
-import Image from 'next/image';
 import { useTasks } from '@/context/TaskContext';
 import { useUsers } from '@/context/UserContext';
 import { useAuth } from '@/context/AuthContext';
 import TaskList from '@/components/ui/TaskList';
 import AddTaskModal from '@/components/ui/AddTaskModal';
-import TasksHeader from '@/components/ui/TasksHeader';
 import { FiArrowLeft } from 'react-icons/fi';
 import { Task } from '@/context/TaskContext';
+import ImageWrapper from '@/components/ui/ImageWrapper';
 
 const UserProfilePage = () => {
   const params = useParams();
@@ -19,7 +18,7 @@ const UserProfilePage = () => {
   const { tasks } = useTasks();
   const { users } = useUsers();
   const { user: currentUser } = useAuth();
-  const [userTasks, setUserTasks] = useState([]);
+  const [userTasks, setUserTasks] = useState<Task[]>([]);
   const [isEditModalOpen, setEditModalOpen] = useState(false);
   const [isAddModalOpen, setAddModalOpen] = useState(false);
   const [taskToEdit, setTaskToEdit] = useState<Task | null>(null);
@@ -27,12 +26,7 @@ const UserProfilePage = () => {
   // Check if viewing own profile
   const isOwnProfile = currentUser?.username === username;
   
-  // Find user info
   const user = users.find(user => user.username === username);
-  const isAdmin = user?.role === 'admin';
-  const avatarSrc = isAdmin ? "/adminAvatar.png" : "/userAvatar.png";
-  console.log("currentUser?.role", currentUser?.role)
-  // Filter tasks for this user
   useEffect(() => {
     if (tasks && tasks.length > 0) {
       const filteredTasks = tasks.filter(task => task.assignedTo === username);
@@ -40,7 +34,6 @@ const UserProfilePage = () => {
     }
   }, [tasks, username]);
   
-  // Handle back button click
   const handleBack = () => {
     router.back();
   };
@@ -74,15 +67,11 @@ const UserProfilePage = () => {
         </button>
       </div>
       
-      <div className="sticky top-[50px] bg-white dark:bg-gray-900 z-10">
+      <div className="mb-2 sticky top-[50px] bg-white dark:bg-gray-900 z-10">
         <div className="flex items-center gap-4 mb-4">
           <div className="relative w-16 h-16 rounded-full overflow-hidden">
-            <Image
-              src={avatarSrc}
-              alt={`${username}'s avatar`}
-              fill
-              className="object-cover"
-            />
+           
+            <ImageWrapper className="object-cover" src="/icon.svg" alt="Icon" width={24} height={24} isSvg={false} />
           </div>
           <div>
             <h1 className="text-2xl font-bold">

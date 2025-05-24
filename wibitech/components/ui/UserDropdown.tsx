@@ -4,7 +4,7 @@
 import { useState, useEffect, useRef } from "react";
 import { Moon, Sun, LogOut } from "lucide-react";
 import { useAuth } from "@/context/AuthContext";
-import Image from "next/image";
+import ImageWrapper from "./ImageWrapper";
 
 export function UserDropdown() {
   const [open, setOpen] = useState(false);
@@ -46,12 +46,13 @@ export function UserDropdown() {
         className="focus:outline-none"
         aria-label="Toggle user menu"
       >
-        <Image
+        <ImageWrapper
           src={avatarSrc}
           alt={isAdmin ? "Admin Avatar" : "User Avatar"}
           width={40}
           height={40}
           className="rounded-full border border-gray-300 dark:border-zinc-600"
+          isSvg={false}
         />
       </button>
 

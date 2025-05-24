@@ -1,7 +1,7 @@
 'use client';
 
 import { createContext, useContext, useState, useEffect } from 'react';
-import axios from '@/lib/api'; // axios instance with token interceptor
+import axios from '@/lib/api';
 import { useRouter } from 'next/navigation';
 import { toast } from 'react-toastify';
 
@@ -16,7 +16,7 @@ interface AuthContextType {
   token: string | null;
   login: (username: string, password: string) => Promise<void>;
   logout: () => void;
-  register: (data: RegisterPayload) => Promise<void>;
+  register: (data: RegisterPayload) => Promise<{ success: boolean; data?: any; error?: any }>;
 }
 
 interface RegisterPayload {
@@ -32,6 +32,8 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const [user, setUser] = useState<User | null>(null);
   const [token, setToken] = useState<string | null>(null);
   const router = useRouter();
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     const storedToken = localStorage.getItem('token');
@@ -49,9 +51,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       let token = res.data.token;
       const user = res.data.user;
 
-      // If token is embedded in user object, extract and clean it
       if (!token && user?.token) {
-        // support for token nested in user
         token = user.token;
         delete user.token;
       }
@@ -65,19 +65,53 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       toast.success('Login successful');
       router.push('/tasks');
     } catch (error: any) {
-      console.log(error);
       toast.error(error.response?.data?.message || 'Login failed');
     }
   };
 
-  const register = async (data: RegisterPayload) => {
+  const register = async (userData: RegisterPayload) => {
+    setLoading(true);
+    setError(null);
     try {
-      await axios.post("https://recruter-backend.vercel.app/api/register", data);
-      await login(data.username, data.password);
-      toast.success('Registration successful');
-    } catch (error: any) {
-      console.log(error);
-      toast.error(error.response?.data?.message || 'Registration failed');
+      // Make the API call
+      const response = await axios.post('/register', userData);
+      
+      // Check the response status code
+      if (response.status === 201) {
+        toast.success('Registration successful!');
+        login(userData.username, userData.password);
+        // Return success flag and any data
+        return { success: true, data: response.data };
+      } else {
+        // Any non-201 response that doesn't throw an error
+        toast.error('Registration failed with unexpected response.');
+        return { success: false };
+      }
+    } catch (err: any) {
+      // Handle specific error responses
+      if (err.response) {
+        switch (err.response.status) {
+          case 409:
+            setError('Username already taken');
+            toast.error('Username already taken. Please choose another one.');
+            break;
+          case 422:
+            setError('Missing required fields');
+            toast.error('Please fill in all required fields.');
+            break;
+          default:
+            setError('Failed to register');
+            toast.error('Registration failed. Please try again later.');
+        }
+      } else {
+        setError('Network error');
+        toast.error('Network error. Please check your connection.');
+      }
+      
+      // Return failure flag
+      return { success: false, error: err };
+    } finally {
+      setLoading(false);
     }
   };
 

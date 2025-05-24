@@ -29,7 +29,6 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
         });
         setUsers(res.data);
       } catch (error: any) {
-        console.error('Failed to fetch users:', error);
         toast.error(error.response?.data?.message || 'Could not fetch users');
       }
     };

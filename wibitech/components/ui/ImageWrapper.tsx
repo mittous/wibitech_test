@@ -8,7 +8,7 @@ type ImageWrapperProps = {
   width?: number;
   height?: number;
   className?: string;
-  isSvg?: boolean;  // Set true if it's an inline SVG
+  isSvg?: boolean;
 };
 
 const ImageWrapper: React.FC<ImageWrapperProps> = ({
@@ -21,12 +21,13 @@ const ImageWrapper: React.FC<ImageWrapperProps> = ({
 }) => {
   if (isSvg) {
     return (
-      <img
+      <Image
         src={src}
         alt={alt}
         width={width}
         height={height}
         className={className}
+        priority
       />
     );
   }

@@ -5,7 +5,7 @@ import { useTasks } from '@/context/TaskContext';
 import { useAuth } from '@/context/AuthContext';
 import TaskItem from './TaskItem';
 import { Task } from '@/context/TaskContext';
-import Image from 'next/image';
+import ImageWrapper from './ImageWrapper';
 interface TaskListProps {
   onEdit?: (taskId: string) => void;
   onAddTask?: () => void;
@@ -17,7 +17,6 @@ const TaskList: React.FC<TaskListProps> = ({
   onEdit, 
   onAddTask,
   tasks: customTasks,
-  hideAddTask = false
 }) => {
   const { tasks: contextTasks, deleteTask, toggleTask, loading } = useTasks();
   const { user } = useAuth();
@@ -55,7 +54,7 @@ const TaskList: React.FC<TaskListProps> = ({
             onClick={onAddTask}
             className="flex items-center gap-2 px-4 py-3 border-gray-300 dark:border-gray-700 rounded-xl cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-800 transition"
           >
-            <Image src="/AddTask_Icon.svg" alt="Add" width={20} height={20} />
+            <ImageWrapper src="/AddTask_Icon.svg" alt="Add" width={20} height={20} isSvg={true} />
             <span className="text-gray-400 dark:text-gray-500 text-sm font-medium">Add a new task...</span>
           </div>
         </div>

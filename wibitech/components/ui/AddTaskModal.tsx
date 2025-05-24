@@ -24,7 +24,6 @@ const AddTaskModal: React.FC<AddTaskModalProps> = ({
   const [title, setTitle] = useState('');
   const [assignedTo, setAssignedTo] = useState('');
   const [description, setDescription] = useState('');
-  const [showDropdown, setShowDropdown] = useState(false);
   const [error, setError] = useState('');
 
   const isAdmin = user?.role === 'admin';

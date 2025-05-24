@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
-import Image from 'next/image';
 import Link from 'next/link';
 import { FiChevronUp } from 'react-icons/fi';
 import { useAuth } from '@/context/AuthContext';
 import { Task } from '@/context/TaskContext';
 import TruncatedText from './common/TruncatedText';
+import ImageWrapper from './ImageWrapper';
 
 interface TaskItemProps {
 	task: Task;
@@ -25,53 +25,50 @@ const TaskItem: React.FC<TaskItemProps> = ({
 	const [expanded, setExpanded] = useState(false);
 	const isAdmin = user?.role === 'admin';
 	const isCompleted = task.status === 'done';
-	
-	// Check if there are any actions available
-	const hasActions = (!isCompleted) || (isAdmin); // Either task is not completed OR user is admin
 
-	// Determine avatar image based on user role
-	const avatarSrc = isAdmin ? "/adminAvatar.png" : "/userAvatar.png";
+	const hasActions = (!isCompleted) || (isAdmin);
+
 
 	return (
 		<div className="relative flex items-center justify-between bg-[#F5F7F9] dark:bg-gray-800 p-5 px-5 py-3.5 rounded-2xl  group">
 			{isCompleted && (
 				<div className="flex items-center justify-center p-[10px] mr-[10px]">
-					<Image src="/Checked.svg" alt="Check" width={20} height={20} />
+					<ImageWrapper src="/icon.svg" alt="Icon" width={20} height={20} isSvg={true} />
 				</div>
 			)}
 			<div className="flex-1 gap-2">
 				<Link href={`/users/${task.assignedTo}`}>
-					<TruncatedText 
+					<TruncatedText
 						text={`@${task.assignedTo}`}
 						className="text-xs text-sky-500 dark:text-blue-400 leading-3 font-normal mb-1 hover:underline cursor-pointer"
-						maxWidth={{ 
-							default: 'max-w-[100px]', 
-							xs: 'xs:max-w-[120px]', 
-							sm: 'sm:max-w-[150px]' 
+						maxWidth={{
+							default: 'max-w-[100px]',
+							xs: 'xs:max-w-[120px]',
+							sm: 'sm:max-w-[150px]'
 						}}
 					/>
 				</Link>
-				
-				<TruncatedText 
+
+				<TruncatedText
 					text={task.title}
 					className={`text-black dark:text-gray-100 text-lg font-semibold ${isCompleted ? 'line-through decoration-[1.2px]' : ''}`}
-					maxWidth={{ 
-						default: 'max-w-[200px]', 
-						xs: 'xs:max-w-[250px]', 
-						sm: 'sm:max-w-[300px]', 
-						md: 'md:max-w-[350px]' 
+					maxWidth={{
+						default: 'max-w-[200px]',
+						xs: 'xs:max-w-[250px]',
+						sm: 'sm:max-w-[300px]',
+						md: 'md:max-w-[350px]'
 					}}
 				/>
-				
-				<TruncatedText 
+
+				<TruncatedText
 					text={task.description}
 					className={`text-[#8c9bb7] dark:text-[#8c9bb7] text-sm ${isCompleted ? 'line-through decoration-[1px] decoration-gray-400' : ''}`}
-					maxWidth={{ 
-						default: 'max-w-[150px]', 
-						xs: 'xs:max-w-[200px]', 
-						sm: 'sm:max-w-[250px]', 
-						md: 'md:max-w-[300px]', 
-						lg: 'lg:max-w-[350px]' 
+					maxWidth={{
+						default: 'max-w-[150px]',
+						xs: 'xs:max-w-[200px]',
+						sm: 'sm:max-w-[250px]',
+						md: 'md:max-w-[300px]',
+						lg: 'lg:max-w-[350px]'
 					}}
 				/>
 			</div>
@@ -84,7 +81,7 @@ const TaskItem: React.FC<TaskItemProps> = ({
 						title="Edit"
 						onClick={() => onEdit(task.id)}
 					>
-						<Image src="/Edit_Icon.svg" alt="Edit" width={20} height={20} />
+						<ImageWrapper src="/Edit_Icon.svg" alt="Edit" width={20} height={20} isSvg={true} />
 					</button>
 				)}
 
@@ -95,7 +92,7 @@ const TaskItem: React.FC<TaskItemProps> = ({
 						onClick={() => onDelete(task.id)}
 						disabled={loading}
 					>
-						<Image src="/Delet_Icon.svg" alt="Delete" width={20} height={20} />
+						<ImageWrapper src="/Delet_Icon.svg" alt="Delete" width={20} height={20} isSvg={true} />
 					</button>
 				)}
 
@@ -106,7 +103,7 @@ const TaskItem: React.FC<TaskItemProps> = ({
 						disabled={loading}
 					>
 						<div className="flex items-center gap-2">
-							<Image src="/CheckCircle_Icon.svg" alt="Check" width={24} height={24} />
+							<ImageWrapper src="/CheckCircle_Icon.svg" alt="Check" width={24} height={24} isSvg={true} />
 							Done
 						</div>
 					</button>
@@ -136,10 +133,10 @@ const TaskItem: React.FC<TaskItemProps> = ({
 							title="Edit"
 							onClick={() => onEdit(task.id)}
 						>
-							<Image src="/Edit_Icon.svg" alt="Edit" width={20} height={20} />
+							<ImageWrapper src="/Edit_Icon.svg" alt="Edit" width={20} height={20} isSvg={true} />
 						</button>
 					)}
-					
+
 					{/* Delete button - only show for admin users */}
 					{isAdmin && (
 						<button
@@ -148,10 +145,10 @@ const TaskItem: React.FC<TaskItemProps> = ({
 							onClick={() => onDelete(task.id)}
 							disabled={loading}
 						>
-							<Image src="/Delet_Icon.svg" alt="Delete" width={20} height={20} />
+							<ImageWrapper src="/Delet_Icon.svg" alt="Delete" width={20} height={20} isSvg={true} />
 						</button>
 					)}
-					
+
 					{/* Done button - only show if task is not completed */}
 					{!isCompleted && (
 						<button
@@ -159,7 +156,7 @@ const TaskItem: React.FC<TaskItemProps> = ({
 							onClick={() => onToggleStatus(task.id)}
 							disabled={loading}
 						>
-							<Image src="/CheckCircle_Icon.svg" alt="Check" width={24} height={24} />
+							<ImageWrapper src="/CheckCircle_Icon.svg" alt="Check" width={24} height={24} isSvg={true} />
 						</button>
 					)}
 				</div>

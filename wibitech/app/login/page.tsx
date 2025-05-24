@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 'use client';
 
 import { useForm } from 'react-hook-form';
@@ -15,7 +16,7 @@ type LoginFormData = {
 };
 
 export default function LoginPage() {
-  const { login } = useAuth(); // Access login from context
+  const { login } = useAuth();
 
   const {
     register,
@@ -26,8 +27,8 @@ export default function LoginPage() {
   const onSubmit = async (data: LoginFormData) => {
     try {
       await login(data.username, data.password); // Call login function
-    } catch (error) {
-      toast.error('Login failed');
+    } catch (error: any) {
+      toast.error(error.response?.data?.message || 'Login failed');
     }
   };
 
@@ -74,7 +75,7 @@ export default function LoginPage() {
 
             <div className="text-center">
               <p className="text-sm text-gray-600 dark:text-gray-400">
-                  Don't have an account?{" "}
+                  Don&apos;t have an account?{" "}
                 <Link href="/register" className="text-blue-600 hover:underline dark:text-blue-400">
                   Register
                 </Link>
