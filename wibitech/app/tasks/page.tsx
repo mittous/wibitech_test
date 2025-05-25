@@ -8,7 +8,6 @@ import TasksHeader from '@/components/ui/TasksHeader';
 import { useState } from 'react';
 import { useTasks } from '@/context/TaskContext';
 import { Task } from '@/context/TaskContext';
-import { redirect } from 'next/navigation';
 
 const TasksPage = () => {
 	const { user } = useAuth();
