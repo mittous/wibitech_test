@@ -65,7 +65,7 @@ const TasksPage = () => {
 			<AddTaskModal
 				open={isAddModalOpen || isEditModalOpen}
 				onClose={handleCloseModal}
-				users={users.map(user => user.username)}
+				users={users.filter(user => user.role !== "admin").map(user => user.username)}
 				taskToEdit={taskToEdit}
 			/>
 		</div>

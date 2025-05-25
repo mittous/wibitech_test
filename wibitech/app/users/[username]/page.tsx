@@ -132,7 +132,7 @@ const UserProfilePage = () => {
       <AddTaskModal
         open={isEditModalOpen || isAddModalOpen}
         onClose={handleCloseModal}
-        users={users.map(user => user.username)}
+        users={users.filter(user => user.role !== "admin").map(user => user.username)}
         taskToEdit={taskToEdit}
         defaultAssignee={username} // auto fill profile username if inside the same user
       />

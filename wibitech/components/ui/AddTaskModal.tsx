@@ -30,7 +30,8 @@ const AddTaskModal: React.FC<AddTaskModalProps> = ({
 
   const isAdmin = user?.role === 'admin';
   const filteredUsers = users.filter(username => !username.includes('admin'));
-
+    console.log("filteredUsers----",filteredUsers);
+    console.log("users----",user);
   // Populate form when taskToEdit changes or default assignee is provided
   useEffect(() => {
     if (taskToEdit) {
@@ -126,7 +127,7 @@ const AddTaskModal: React.FC<AddTaskModalProps> = ({
               <label className="block font-semibold text-gray-800 dark:text-gray-100 mb-2">Assign to</label>
               <AssigneeDropdown
                 users={filteredUsers}
-                value={assignedTo}
+                value={assignedTo}  
                 onChange={val => {
                   setAssignedTo(val);
                   if (val) setAssignedToError('');
