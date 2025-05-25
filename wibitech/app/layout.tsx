@@ -1,6 +1,6 @@
 import { AuthProvider } from "@/context/AuthContext";
 import 'react-toastify/dist/ReactToastify.css';
-import "./globals.css";
+import '@/app/globals.css';
 import { ToastContainer } from "react-toastify";
 import Navbar from "@/components/ui/Navbar";
 import { TaskProvider } from "@/context/TaskContext";

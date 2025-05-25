@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useTasks } from '@/context/TaskContext';
 import { Task } from '@/context/TaskContext';
 import { useAuth } from '@/context/AuthContext';
-import AssigneeDropdown from './form/AssigneeDropdown';
+import AssigneeDropdown from '@/components/ui/form/AssigneeDropdown';
 
 interface AddTaskModalProps {
   open: boolean;

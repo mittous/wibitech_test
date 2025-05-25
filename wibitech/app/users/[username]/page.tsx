@@ -50,6 +50,8 @@ const UserProfilePage = () => {
     router.back();
   };
   
+  const isAdmin = currentUser?.role === 'admin';
+
   // Handle edit task
   const handleEditTask = (taskId: string) => {
     const task = tasks.find(t => t.id === taskId);
@@ -87,7 +89,10 @@ const UserProfilePage = () => {
         <div className="flex items-center gap-4 mb-4">
           <div className="relative w-16 h-16 rounded-full overflow-hidden">
            
-            <ImageWrapper className="object-cover" src="/icon.svg" alt="Icon" width={24} height={24} isSvg={false} />
+            {
+              isAdmin ? <ImageWrapper className="object-cover" src="/userAvatar.png" alt="Icon" width={24} height={24} isSvg={false} />
+               : <ImageWrapper className="object-cover" src="/adminAvatar.png" alt="Icon" width={24} height={24} isSvg={false} />
+            }
           </div>
           <div>
             <h1 className="text-2xl font-bold">

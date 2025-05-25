@@ -1,3 +1,4 @@
+"use client"
 import React from "react";
 import Image from "next/image";
 
@@ -18,7 +19,13 @@ const ImageWrapper: React.FC<ImageWrapperProps> = ({
   className = "",
   isSvg = false,
 }) => {
-  if (isSvg) {
+  if (isSvg === true) {
+    console.log("src", src)
+    console.log("alt", alt)
+    console.log("width", width)
+    console.log("height", height)
+    console.log("className", className)
+    console.log("isSvg", isSvg)
     return (
       // eslint-disable-next-line @next/next/no-img-element
       <img
@@ -27,6 +34,7 @@ const ImageWrapper: React.FC<ImageWrapperProps> = ({
         width={width}
         height={height}
         className={className}
+        
       />
     );
   }
@@ -38,6 +46,7 @@ const ImageWrapper: React.FC<ImageWrapperProps> = ({
       width={width}
       height={height}
       className={className}
+      priority
     />
   );
 };

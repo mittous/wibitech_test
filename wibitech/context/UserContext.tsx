@@ -2,7 +2,7 @@
 
 import { createContext, useContext, useEffect, useState, ReactNode } from 'react';
 import axios from '@/lib/api';
-import { useAuth } from './AuthContext';
+import { useAuth } from '@/context/AuthContext';
 import { toast } from 'react-toastify';
 
 export type AppUser = {

@@ -3,8 +3,8 @@ import Link from 'next/link';
 import { FiChevronUp } from 'react-icons/fi';
 import { useAuth } from '@/context/AuthContext';
 import { Task } from '@/context/TaskContext';
-import TruncatedText from './common/TruncatedText';
-import ImageWrapper from './ImageWrapper';
+import TruncatedText from '@/components/ui/common/TruncatedText';
+import ImageWrapper from '@/components/ui/ImageWrapper';
 
 interface TaskItemProps {
 	task: Task;
@@ -33,7 +33,7 @@ const TaskItem: React.FC<TaskItemProps> = ({
 		<div className="relative flex items-center justify-between bg-[#F5F7F9] dark:bg-gray-800 p-5 px-5 py-3.5 rounded-2xl  group">
 			{isCompleted && (
 				<div className="flex items-center justify-center p-[10px] mr-[10px]">
-					<ImageWrapper src="/icon.svg" alt="Icon" width={20} height={20} isSvg={true} />
+					<ImageWrapper src="/Checked.svg" alt="checked" width={20} height={20} isSvg={true} />
 				</div>
 			)}
 			<div className="flex-1 gap-2">
@@ -152,6 +152,7 @@ const TaskItem: React.FC<TaskItemProps> = ({
 					{/* Done button - only show if task is not completed */}
 					{!isCompleted && (
 						<button
+							title="Done"
 							className="p-2 rounded-full bg-blue-500 hover:bg-blue-600 dark:bg-blue-600 dark:hover:bg-blue-700"
 							onClick={() => onToggleStatus(task.id)}
 							disabled={loading}

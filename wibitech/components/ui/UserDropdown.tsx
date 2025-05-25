@@ -3,7 +3,7 @@
 import { useState, useEffect, useRef } from "react";
 import { Moon, Sun, LogOut } from "lucide-react";
 import { useAuth } from "@/context/AuthContext";
-import ImageWrapper from "./ImageWrapper";
+import ImageWrapper from "@/components/ui/ImageWrapper";
 
 export function UserDropdown() {
   const [open, setOpen] = useState(false);

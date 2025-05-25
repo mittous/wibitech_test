@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import ImageWrapper from '../ImageWrapper';
+import ImageWrapper from '@/components/ui/ImageWrapper';
 
 interface AssigneeDropdownProps {
   users: string[];

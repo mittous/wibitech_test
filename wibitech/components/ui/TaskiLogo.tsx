@@ -1,24 +1,25 @@
 import React from 'react'
-import Image from 'next/image'
+import ImageWrapper from '@/components/ui/ImageWrapper'
 
 function TaskiLogo() {
 	return (
 		<div className="flex items-center justify-center">
-			<Image
-				src="/logo.svg"
+			<ImageWrapper
+				src="/Logo.svg"
 				alt="taski Logo"
 				width={81}
 				height={28}
 				className="dark:hidden"
-				priority
+				isSvg={true}
+				
 			/>
-			<Image
-				src="/logo_darkMode.svg"
+			<ImageWrapper
+				src="/Logo_darkMode.svg"
 				alt="taski Logo"
 				width={81}
 				height={28}
 				className="dark:block hidden"
-				priority
+				isSvg={true}
 			/>
 		</div>
 	)
