@@ -1,11 +1,12 @@
 import { AuthProvider } from "@/context/AuthContext";
 import 'react-toastify/dist/ReactToastify.css';
-import '@/app/globals.css';
+import "@/styles/globals.css";
 import { ToastContainer } from "react-toastify";
 import Navbar from "@/components/ui/Navbar";
 import { TaskProvider } from "@/context/TaskContext";
 import { UserProvider } from "@/context/UserContext";
 import { Inter } from 'next/font/google';
+import { Metadata } from 'next';
 
 // Initialize Inter font with Latin subset
 const inter = Inter({ 
@@ -14,9 +15,17 @@ const inter = Inter({
   variable: '--font-inter'
 });
 
+export const metadata: Metadata = {
+  title: 'Taski - Task Management',
+
+};
+
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en" className={inter.variable}>
+      <head>
+        <link rel="icon" href="/favicon.svg" type="image/svg+xml" sizes="any" />
+      </head>
       <body className={`sm:px-[100px] px-[15px] font-sans ${inter.className}`}>
         <AuthProvider>
           <TaskProvider>
