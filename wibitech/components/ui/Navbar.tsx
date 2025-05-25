@@ -5,8 +5,8 @@ import { useState, useEffect } from "react";
 import { Moon, Sun } from "lucide-react";
 import TaskiLogo from "@/components/ui/TaskiLogo";
 import { useAuth } from "@/context/AuthContext";
-import { FormTitle } from "@/components/ui/FormTitle";
 import { UserDropdown } from "@/components/ui/UserDropdown";
+import TruncatedText from "@/components/ui/common/TruncatedText";
 
 export default function Navbar() {
 	const pathname = usePathname();
@@ -44,9 +44,15 @@ export default function Navbar() {
 				)}
 				{!isAuthPage && user && (
 					<div className="flex items-center gap-2">
-						<FormTitle
-							title={user?.username}
-							className="text-black dark:text-white text-lg font-semibold text-center"
+						<TruncatedText
+							text={user?.username || ''}
+							className="text-black dark:text-white text-lg font-semibold"
+							maxWidth={{
+								default: 'max-w-[100px]',
+								xs: 'xs:max-w-[120px]',
+								sm: 'sm:max-w-[150px]',
+								md: 'md:max-w-[180px]'
+							}}
 						/>
 						<UserDropdown />
 					</div>

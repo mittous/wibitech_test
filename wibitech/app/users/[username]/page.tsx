@@ -10,6 +10,7 @@ import AddTaskModal from '@/components/ui/AddTaskModal';
 import { FiArrowLeft } from 'react-icons/fi';
 import { Task } from '@/types/task';
 import ImageWrapper from '@/components/ui/ImageWrapper';
+import TruncatedText from '@/components/ui/common/TruncatedText';
 
 const UserProfilePage = () => {
   const params = useParams();
@@ -25,17 +26,14 @@ const UserProfilePage = () => {
   const [isLoading, setIsLoading] = useState(true);
   
   useEffect(() => {
-    // Check auth directly from localStorage as a backup
+    // Check auth
     const token = localStorage.getItem('token');
-    
     if (!token && !currentUser) {
       redirect('/login');
-    }
-    
+    }    
     setIsLoading(false);
   }, [currentUser]);
   
-  // Check if viewing own profile
   const isOwnProfile = currentUser?.username === username;
   
   const user = users.find(user => user.username === username);
@@ -109,7 +107,17 @@ const UserProfilePage = () => {
           </div>
           <div>
             <h1 className="text-2xl font-bold">
-              @{username}
+              <TruncatedText 
+                text={`@${username}`}
+                className="text-2xl font-bold"
+                maxWidth={{
+                  default: 'max-w-[150px]',
+                  xs: 'xs:max-w-[180px]',
+                  sm: 'sm:max-w-[220px]',
+                  md: 'md:max-w-[280px]',
+                  lg: 'lg:max-w-[350px]'
+                }}
+              />
             </h1>
             <span className="text-sm text-gray-500 dark:text-gray-400 capitalize">
               {user?.role || 'user'}
@@ -118,7 +126,19 @@ const UserProfilePage = () => {
         </div>
         
         <h2 className="text-xl font-semibold">
-          {isOwnProfile ? 'My Tasks' : `${username}'s Tasks`}
+          {isOwnProfile ? 'My Tasks' : (
+            <TruncatedText 
+              text={`${username}'s Tasks`}
+              className="text-xl font-semibold"
+              maxWidth={{
+                default: 'max-w-[200px]',
+                xs: 'xs:max-w-[250px]',
+                sm: 'sm:max-w-[300px]',
+                md: 'md:max-w-[350px]',
+                lg: 'lg:max-w-[400px]'
+              }}
+            />
+          )}
         </h2>
       </div>
       

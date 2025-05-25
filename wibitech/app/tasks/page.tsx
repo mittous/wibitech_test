@@ -19,14 +19,12 @@ const TasksPage = () => {
 	const [taskToEdit, setTaskToEdit] = useState<Task | null>(null);
 	const [isLoading, setIsLoading] = useState(true);
 
+	// Check auth
 	useEffect(() => {
-		// Check auth directly from localStorage as a backup
 		const token = localStorage.getItem('token');
-		
 		if (!token && !user) {
 			redirect('/login');
 		}
-		
 		setIsLoading(false);
 	}, [user]);
 

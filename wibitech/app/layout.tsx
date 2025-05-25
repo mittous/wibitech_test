@@ -8,7 +8,6 @@ import { UserProvider } from "@/context/UserContext";
 import { Inter } from 'next/font/google';
 import { Metadata } from 'next';
 
-// Initialize Inter font with Latin subset
 const inter = Inter({ 
   subsets: ['latin'],
   display: 'swap',

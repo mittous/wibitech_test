@@ -4,6 +4,7 @@ import { useState, useEffect, useRef } from "react";
 import { Moon, Sun, LogOut } from "lucide-react";
 import { useAuth } from "@/context/AuthContext";
 import ImageWrapper from "@/components/ui/ImageWrapper";
+import TruncatedText from "@/components/ui/common/TruncatedText";
 
 export function UserDropdown() {
   const [open, setOpen] = useState(false);
@@ -58,7 +59,13 @@ export function UserDropdown() {
       {open && (
         <div className="absolute right-0 mt-2 w-48 bg-white dark:bg-zinc-800 shadow-md rounded-lg overflow-hidden z-50">
           <div className="px-4 py-2 border-b border-gray-200 dark:border-zinc-700">
-            <p className="text-sm font-medium">{user?.username}</p>
+            <TruncatedText
+              text={user?.username || ''}
+              className="text-sm font-medium"
+              maxWidth={{
+                default: 'max-w-[160px]',
+              }}
+            />
             <p className="text-xs text-gray-500 dark:text-gray-400 capitalize">{user?.role}</p>
           </div>
           <button
