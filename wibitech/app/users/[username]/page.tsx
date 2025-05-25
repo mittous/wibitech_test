@@ -8,7 +8,7 @@ import { useAuth } from '@/context/AuthContext';
 import TaskList from '@/components/ui/TaskList';
 import AddTaskModal from '@/components/ui/AddTaskModal';
 import { FiArrowLeft } from 'react-icons/fi';
-import { Task } from '@/context/TaskContext';
+import { Task } from '@/types/task';
 import ImageWrapper from '@/components/ui/ImageWrapper';
 
 const UserProfilePage = () => {

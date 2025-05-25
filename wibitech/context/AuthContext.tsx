@@ -4,27 +4,7 @@ import { createContext, useContext, useState, useEffect } from 'react';
 import axios from '@/lib/api';
 import { useRouter } from 'next/navigation';
 import { toast } from 'react-toastify';
-
-interface User {
-  id: string;
-  username: string;
-  role: 'admin' | 'regular';
-}
-
-interface AuthContextType {
-  user: User | null;
-  token: string | null;
-  login: (username: string, password: string) => Promise<void>;
-  logout: () => void;
-  register: (data: RegisterPayload) => Promise<{ success: boolean; data?: any; error?: any }>;
-}
-
-interface RegisterPayload {
-  fullName: string;
-  username: string;
-  password: string;
-  role: "admin" | "user";
-}
+import { User, AuthContextType, RegisterPayload } from '@/types/auth';
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 

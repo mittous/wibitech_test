@@ -17,7 +17,6 @@ const inter = Inter({
 
 export const metadata: Metadata = {
   title: 'Taski - Task Management',
-
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {

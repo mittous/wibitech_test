@@ -4,16 +4,7 @@ import { createContext, useContext, useEffect, useState, ReactNode } from 'react
 import axios from '@/lib/api';
 import { useAuth } from '@/context/AuthContext';
 import { toast } from 'react-toastify';
-
-export type AppUser = {
-  id: string;
-  username: string;
-  role: 'admin' | 'user';
-};
-
-interface UserContextType {
-  users: AppUser[];
-}
+import { AppUser, UserContextType } from '@/types/user';
 
 const UserContext = createContext<UserContextType | undefined>(undefined);
 

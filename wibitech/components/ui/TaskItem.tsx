@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import Link from 'next/link';
 import { FiChevronUp } from 'react-icons/fi';
 import { useAuth } from '@/context/AuthContext';
-import { Task } from '@/context/TaskContext';
+import { Task } from '@/types/task';
 import TruncatedText from '@/components/ui/common/TruncatedText';
 import ImageWrapper from '@/components/ui/ImageWrapper';
 

@@ -7,7 +7,7 @@ import { useUsers } from '@/context/UserContext';
 import TasksHeader from '@/components/ui/TasksHeader';
 import { useState, useEffect } from 'react';
 import { useTasks } from '@/context/TaskContext';
-import { Task } from '@/context/TaskContext';
+import { Task } from '@/types/task';
 import { redirect } from 'next/navigation';
 
 const TasksPage = () => {

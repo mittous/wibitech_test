@@ -4,8 +4,9 @@ import React from 'react';
 import { useTasks } from '@/context/TaskContext';
 import { useAuth } from '@/context/AuthContext';
 import TaskItem from '@/components/ui/TaskItem';
-import { Task } from '@/context/TaskContext';
+import { Task } from '@/types/task';
 import ImageWrapper from '@/components/ui/ImageWrapper';
+
 interface TaskListProps {
   onEdit?: (taskId: string) => void;
   onAddTask?: () => void;

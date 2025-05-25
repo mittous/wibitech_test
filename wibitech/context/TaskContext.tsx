@@ -4,27 +4,7 @@ import { createContext, useContext, useState, useEffect, ReactNode } from 'react
 import axios from '@/lib/api';
 import { useAuth } from '@/context/AuthContext';
 import { toast } from 'react-toastify';
-
-export type Task = {
-  id: string;
-  title: string;
-  description: string;
-  status: 'in_progress' | 'done';
-  assignedTo: string;
-  completed: boolean;
-};
-
-type TaskContextType = {
-  tasks: Task[];
-  loading: boolean;
-  error: string | null;
-  status: string | null;
-  fetchTasks: () => Promise<void>;
-  addTask: (task: Omit<Task, 'id' | 'completed'>) => Promise<void>;
-  editTask: (id: string, updatedFields: Partial<Task>) => Promise<void>;
-  deleteTask: (id: string) => Promise<void>;
-  toggleTask: (id: string) => Promise<void>;
-};
+import { Task, TaskContextType } from '@/types/task';
 
 const TaskContext = createContext<TaskContextType | undefined>(undefined);
 
