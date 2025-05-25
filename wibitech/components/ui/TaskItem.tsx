@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import Link from 'next/link';
-import { FiChevronUp } from 'react-icons/fi';
+import { FiChevronUp, FiMove } from 'react-icons/fi';
 import { useAuth } from '@/context/AuthContext';
 import { Task } from '@/types/task';
 import TruncatedText from '@/components/ui/common/TruncatedText';
@@ -28,9 +28,13 @@ const TaskItem: React.FC<TaskItemProps> = ({
 
 	const hasActions = (!isCompleted) || (isAdmin);
 
-
 	return (
-		<div className="relative flex items-center justify-between bg-[#F5F7F9] dark:bg-gray-800 p-5 px-5 py-3.5 rounded-2xl  group">
+		<div className="relative flex items-center justify-between bg-[#F5F7F9] dark:bg-gray-800 p-5 px-5 py-3.5 rounded-2xl group">
+			{/* Drag handle indicator */}
+			<div className="opacity-0 group-hover:opacity-50 hover:opacity-100 transition-opacity mr-2 text-gray-400 dark:text-gray-500">
+				<FiMove size={16} />
+			</div>
+			
 			{isCompleted && (
 				<div className="flex items-center justify-center p-[10px] mr-[10px]">
 					<ImageWrapper src="/svg/Checked.svg" alt="checked" width={20} height={20} isSvg={true} />
@@ -115,6 +119,7 @@ const TaskItem: React.FC<TaskItemProps> = ({
 				<button
 					className="md:hidden absolute bottom-2 right-2 p-2 bg-gray-200 dark:bg-gray-700 rounded-full"
 					onClick={() => setExpanded(!expanded)}
+					title="Toggle actions"
 				>
 					<FiChevronUp
 						className={`transition-transform duration-200 ${expanded ? 'rotate-0' : 'rotate-180'}`}
