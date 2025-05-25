@@ -5,9 +5,10 @@ import AddTaskModal from '@/components/ui/AddTaskModal';
 import { useAuth } from '@/context/AuthContext';
 import { useUsers } from '@/context/UserContext';
 import TasksHeader from '@/components/ui/TasksHeader';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useTasks } from '@/context/TaskContext';
 import { Task } from '@/context/TaskContext';
+import { redirect } from 'next/navigation';
 
 const TasksPage = () => {
 	const { user } = useAuth();
@@ -16,15 +17,25 @@ const TasksPage = () => {
 	const [isEditModalOpen, setEditModalOpen] = useState(false);
 	const { tasks } = useTasks();
 	const [taskToEdit, setTaskToEdit] = useState<Task | null>(null);
+	const [isLoading, setIsLoading] = useState(true);
 
-	// if (user == null){
-	// 	redirect('/login');
-	// 	return;
-	// }
+	useEffect(() => {
+		// Check auth directly from localStorage as a backup
+		const token = localStorage.getItem('token');
 		
+		if (!token && !user) {
+			redirect('/login');
+		}
+		
+		setIsLoading(false);
+	}, [user]);
+
+	if (isLoading) {
+		return <div className="pt-[150px] flex justify-center">Loading...</div>;
+	}
 
 	const tasksNumber = user?.role === 'admin' ? tasks.length : tasks.filter(task => task.assignedTo === user?.username).length;
-	
+
 	const handleEditTask = (taskId: string) => {
 		const task = tasks.find(t => t.id === taskId);
 		if (task) {
@@ -32,13 +43,13 @@ const TasksPage = () => {
 			setEditModalOpen(true);
 		}
 	};
-	
+
 	const handleCloseModal = () => {
 		setAddModalOpen(false);
 		setEditModalOpen(false);
 		setTaskToEdit(null);
 	};
-	
+
 	return (
 		<div className="pt-[150px]">
 			<TasksHeader

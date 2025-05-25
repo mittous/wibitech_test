@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useEffect, useState } from 'react';
-import { useParams, useRouter } from 'next/navigation';
+import { useParams, useRouter, redirect } from 'next/navigation';
 import { useTasks } from '@/context/TaskContext';
 import { useUsers } from '@/context/UserContext';
 import { useAuth } from '@/context/AuthContext';
@@ -22,11 +22,19 @@ const UserProfilePage = () => {
   const [isEditModalOpen, setEditModalOpen] = useState(false);
   const [isAddModalOpen, setAddModalOpen] = useState(false);
   const [taskToEdit, setTaskToEdit] = useState<Task | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
   
-  // if (user == null){
-	// 	redirect('/login');
-	// 	return;
-	// }
+  useEffect(() => {
+    // Check auth directly from localStorage as a backup
+    const token = localStorage.getItem('token');
+    
+    if (!token && !currentUser) {
+      redirect('/login');
+    }
+    
+    setIsLoading(false);
+  }, [currentUser]);
+  
   // Check if viewing own profile
   const isOwnProfile = currentUser?.username === username;
   
@@ -58,6 +66,10 @@ const UserProfilePage = () => {
     setTaskToEdit(null);
   };
   
+  if (isLoading) {
+    return <div className="pt-[150px] flex justify-center">Loading...</div>;
+  }
+
   return (
     <div className="pt-[150px] overflow-y-hidden">
       {/* Back Button */}

@@ -5,13 +5,19 @@ import { ToastContainer } from "react-toastify";
 import Navbar from "@/components/ui/Navbar";
 import { TaskProvider } from "@/context/TaskContext";
 import { UserProvider } from "@/context/UserContext";
+import { Inter } from 'next/font/google';
+
+// Initialize Inter font with Latin subset
+const inter = Inter({ 
+  subsets: ['latin'],
+  display: 'swap',
+  variable: '--font-inter'
+});
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
-
-
   return (
-    <html lang="en">
-      <body className="sm:px-[100px] px-[15px]">
+    <html lang="en" className={inter.variable}>
+      <body className={`sm:px-[100px] px-[15px] font-sans ${inter.className}`}>
         <AuthProvider>
           <TaskProvider>
             <UserProvider>
