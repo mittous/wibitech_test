@@ -18,7 +18,7 @@ const AssigneeDropdown: React.FC<AssigneeDropdownProps> = ({ users, value, onCha
         onClick={() => setShowDropdown(v => !v)}
       >
         {value || 'Assign to'}
-        <ImageWrapper src="/DownArrow_Icon.svg" alt="down" width={16} height={16} isSvg={true} />
+        <ImageWrapper src="/svg/DownArrow_Icon.svg" alt="down" width={16} height={16} isSvg={true} />
       </button>
       {showDropdown && (
         <div className="absolute left-0 right-0 mt-1 bg-white dark:bg-gray-700 border dark:border-gray-600 rounded-lg shadow z-10 max-h-[150px] overflow-y-auto">

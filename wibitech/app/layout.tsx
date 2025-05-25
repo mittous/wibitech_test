@@ -23,7 +23,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="en" className={inter.variable}>
       <head>
-        <link rel="icon" href="/favicon.svg" type="image/svg+xml" sizes="any" />
+        <link rel="icon" href="/svg/favicon.svg" type="image/svg+xml" sizes="any" />
       </head>
       <body className={`sm:px-[100px] px-[15px] font-sans ${inter.className}`}>
         <AuthProvider>

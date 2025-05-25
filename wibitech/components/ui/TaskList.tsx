@@ -55,7 +55,7 @@ const TaskList: React.FC<TaskListProps> = ({
             onClick={onAddTask}
             className="flex items-center gap-2 px-4 py-3 border-gray-300 dark:border-gray-700 rounded-xl cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-800 transition"
           >
-            <ImageWrapper src="/AddTask_Icon.svg" alt="Add" width={20} height={20} isSvg={true} />
+            <ImageWrapper src="/svg/AddTask_Icon.svg" alt="Add" width={20} height={20} isSvg={true} />
             <span className="text-gray-400 dark:text-gray-500 text-sm font-medium">Add a new task...</span>
           </div>
         </div>

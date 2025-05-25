@@ -89,9 +89,9 @@ const UserProfilePage = () => {
            
             {
               user?.role === 'admin' 
-                ? <ImageWrapper 
+                ? <ImageWrapper
                     className="object-cover w-full h-full" 
-                    src="/adminAvatar.png" 
+                    src="/ProfileAvatar/adminAvatar.png" 
                     alt={`${username}'s avatar`} 
                     width={64} 
                     height={64} 
@@ -99,7 +99,7 @@ const UserProfilePage = () => {
                   />
                 : <ImageWrapper 
                     className="object-cover w-full h-full" 
-                    src="/userAvatar.png" 
+                    src="/ProfileAvatar/userAvatar.png" 
                     alt={`${username}'s avatar`} 
                     width={64} 
                     height={64} 

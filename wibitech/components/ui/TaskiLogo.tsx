@@ -5,7 +5,7 @@ function TaskiLogo() {
 	return (
 		<div className="flex items-center justify-center">
 			<ImageWrapper
-				src="/Logo.svg"
+				src="/svg/Logo.svg"
 				alt="taski Logo"
 				width={81}
 				height={28}
@@ -14,7 +14,7 @@ function TaskiLogo() {
 				
 			/>
 			<ImageWrapper
-				src="/Logo_darkMode.svg"
+				src="/svg/Logo_darkMode.svg"
 				alt="taski Logo"
 				width={81}
 				height={28}

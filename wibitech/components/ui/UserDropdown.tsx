@@ -13,7 +13,7 @@ export function UserDropdown() {
   
   // Determine avatar image based on user role
   const isAdmin = user?.role === 'admin';
-  const avatarSrc = isAdmin ? "/adminAvatar.png" : "/userAvatar.png";
+  const avatarSrc = isAdmin ? "/ProfileAvatar/adminAvatar.png" : "/ProfileAvatar/ProfileAvatar/userAvatar.png";
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {

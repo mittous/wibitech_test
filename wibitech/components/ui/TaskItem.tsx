@@ -33,7 +33,7 @@ const TaskItem: React.FC<TaskItemProps> = ({
 		<div className="relative flex items-center justify-between bg-[#F5F7F9] dark:bg-gray-800 p-5 px-5 py-3.5 rounded-2xl  group">
 			{isCompleted && (
 				<div className="flex items-center justify-center p-[10px] mr-[10px]">
-					<ImageWrapper src="/Checked.svg" alt="checked" width={20} height={20} isSvg={true} />
+					<ImageWrapper src="/svg/Checked.svg" alt="checked" width={20} height={20} isSvg={true} />
 				</div>
 			)}
 			<div className="flex-1 gap-2">
@@ -81,7 +81,7 @@ const TaskItem: React.FC<TaskItemProps> = ({
 						title="Edit"
 						onClick={() => onEdit(task.id)}
 					>
-						<ImageWrapper src="/Edit_Icon.svg" alt="Edit" width={20} height={20} isSvg={true} />
+						<ImageWrapper src="/svg/Edit_Icon.svg" alt="Edit" width={20} height={20} isSvg={true} />
 					</button>
 				)}
 
@@ -92,7 +92,7 @@ const TaskItem: React.FC<TaskItemProps> = ({
 						onClick={() => onDelete(task.id)}
 						disabled={loading}
 					>
-						<ImageWrapper src="/Delet_Icon.svg" alt="Delete" width={20} height={20} isSvg={true} />
+						<ImageWrapper src="/svg/Delet_Icon.svg" alt="Delete" width={20} height={20} isSvg={true} />
 					</button>
 				)}
 
@@ -103,7 +103,7 @@ const TaskItem: React.FC<TaskItemProps> = ({
 						disabled={loading}
 					>
 						<div className="flex items-center gap-2">
-							<ImageWrapper src="/CheckCircle_Icon.svg" alt="Check" width={24} height={24} isSvg={true} />
+							<ImageWrapper src="/svg/CheckCircle_Icon.svg" alt="Check" width={24} height={24} isSvg={true} />
 							Done
 						</div>
 					</button>
@@ -133,7 +133,7 @@ const TaskItem: React.FC<TaskItemProps> = ({
 							title="Edit"
 							onClick={() => onEdit(task.id)}
 						>
-							<ImageWrapper src="/Edit_Icon.svg" alt="Edit" width={20} height={20} isSvg={true} />
+							<ImageWrapper src="/svg/Edit_Icon.svg" alt="Edit" width={20} height={20} isSvg={true} />
 						</button>
 					)}
 
@@ -145,7 +145,7 @@ const TaskItem: React.FC<TaskItemProps> = ({
 							onClick={() => onDelete(task.id)}
 							disabled={loading}
 						>
-							<ImageWrapper src="/Delet_Icon.svg" alt="Delete" width={20} height={20} isSvg={true} />
+							<ImageWrapper src="/svg/Delet_Icon.svg" alt="Delete" width={20} height={20} isSvg={true} />
 						</button>
 					)}
 
@@ -157,7 +157,7 @@ const TaskItem: React.FC<TaskItemProps> = ({
 							onClick={() => onToggleStatus(task.id)}
 							disabled={loading}
 						>
-							<ImageWrapper src="/CheckCircle_Icon.svg" alt="Check" width={24} height={24} isSvg={true} />
+							<ImageWrapper src="/svg/CheckCircle_Icon.svg" alt="Check" width={24} height={24} isSvg={true} />
 						</button>
 					)}
 				</div>
