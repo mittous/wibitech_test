@@ -50,8 +50,6 @@ const UserProfilePage = () => {
     router.back();
   };
   
-  const isAdmin = currentUser?.role === 'admin';
-
   // Handle edit task
   const handleEditTask = (taskId: string) => {
     const task = tasks.find(t => t.id === taskId);
@@ -87,11 +85,26 @@ const UserProfilePage = () => {
       
       <div className="mb-2 sticky top-[50px] bg-white dark:bg-gray-900 z-10">
         <div className="flex items-center gap-4 mb-4">
-          <div className="relative w-16 h-16 rounded-full overflow-hidden">
+          <div className="relative w-16 h-16 rounded-full overflow-hidden flex items-center justify-center bg-gray-200 dark:bg-gray-800">
            
             {
-              isAdmin ? <ImageWrapper className="object-cover" src="/userAvatar.png" alt="Icon" width={24} height={24} isSvg={false} />
-               : <ImageWrapper className="object-cover" src="/adminAvatar.png" alt="Icon" width={24} height={24} isSvg={false} />
+              user?.role === 'admin' 
+                ? <ImageWrapper 
+                    className="object-cover w-full h-full" 
+                    src="/adminAvatar.png" 
+                    alt={`${username}'s avatar`} 
+                    width={64} 
+                    height={64} 
+                    isSvg={false} 
+                  />
+                : <ImageWrapper 
+                    className="object-cover w-full h-full" 
+                    src="/userAvatar.png" 
+                    alt={`${username}'s avatar`} 
+                    width={64} 
+                    height={64} 
+                    isSvg={false} 
+                  />
             }
           </div>
           <div>

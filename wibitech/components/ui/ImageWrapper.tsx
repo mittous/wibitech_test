@@ -20,12 +20,7 @@ const ImageWrapper: React.FC<ImageWrapperProps> = ({
   isSvg = false,
 }) => {
   if (isSvg === true) {
-    console.log("src", src)
-    console.log("alt", alt)
-    console.log("width", width)
-    console.log("height", height)
-    console.log("className", className)
-    console.log("isSvg", isSvg)
+
     return (
       // eslint-disable-next-line @next/next/no-img-element
       <img
