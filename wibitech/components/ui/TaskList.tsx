@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useMemo } from 'react';
 import { useTasks } from '@/context/TaskContext';
 import { useAuth } from '@/context/AuthContext';
 import { Task, TaskStatus } from '@/types/task';
@@ -38,16 +38,25 @@ const TaskList: React.FC<TaskListProps> = ({
   const { user } = useAuth();
   const isAdmin = user?.role === 'admin';
 
-  // Use custom tasks if provided, otherwise filter from context
-  const contextFilteredTasks = isAdmin 
-    ? contextTasks
-    : contextTasks.filter(task => task.assignedTo === user?.username);
+  // Use useMemo to create stable references for filtered tasks
+  const contextFilteredTasks = useMemo(() => {
+    if (!user) return [];
+    return isAdmin 
+      ? contextTasks
+      : contextTasks.filter(task => task.assignedTo === user.username);
+  }, [contextTasks, isAdmin, user]);
   
   // State for local sorting
   const [localTasks, setLocalTasks] = useState<Task[]>([]);
   
   // Update local tasks when context or custom tasks change
   useEffect(() => {
+    // Only run this effect if we have tasks to work with
+    if (!customTasks?.length && !contextFilteredTasks.length) {
+      setLocalTasks([]);
+      return;
+    }
+    
     const tasksToSort = customTasks || contextFilteredTasks;
     
     // Sort tasks: non-completed first, then completed
@@ -94,27 +103,6 @@ const TaskList: React.FC<TaskListProps> = ({
       });
     }
   };
-  
-  // Re-sort tasks when a task status changes
-  useEffect(() => {
-    // Sort tasks whenever they change
-    const sortTasks = () => {
-      setLocalTasks(prev => {
-        return [...prev].sort((a, b) => {
-          if (a.status === 'done' && b.status !== 'done') return 1;
-          if (a.status !== 'done' && b.status === 'done') return -1;
-          return 0;
-        });
-      });
-    };
-    
-    sortTasks(); // Initial sort
-    
-    // This re-sorts tasks when the task list changes
-    return () => {
-      // Cleanup if needed
-    };
-  }, [localTasks.length]); // Only re-run when the number of tasks changes
 
   return (
     <div className="flex flex-col">
@@ -140,7 +128,7 @@ const TaskList: React.FC<TaskListProps> = ({
                     onToggleStatus={(id) => {
                       toggleTask(id);
                       
-                      // Force re-sort after status change
+                      // Update local state with proper sorting after status change
                       const taskToUpdate = localTasks.find(t => t.id === id);
                       if (!taskToUpdate) return;
                       
