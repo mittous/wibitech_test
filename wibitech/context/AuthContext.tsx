@@ -60,7 +60,6 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         login(userData.username, userData.password);
         return { success: true, data: response.data };
       } else {
-        // Any non-201 response that doesn't throw an error
         toast.error('Registration failed with unexpected response.');
         return { success: false };
       }
