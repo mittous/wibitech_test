@@ -2,9 +2,13 @@
 
 A responsive task management application built with modern web technologies.
 
+## Live Demo
+
+Visit the live application: [Wibitech Task Manager](https://wibitech-test-mstl-git-main-ismail-mittous-projects.vercel.app/login)
+
 ## Technology Stack
 
-- **Frontend Framework**: Next.js 14 with App Router
+- **Frontend Framework**: Next.js 15 with App Router
 - **Language**: TypeScript
 - **Styling**: Tailwind CSS for responsive design
 - **Form Management**: React Hook Form
@@ -24,6 +28,11 @@ This approach creates a clean separation of concerns and allows components to ac
 
 ## API Integration
 
+The frontend communicates with a documented RESTful API:
+
+- API Docs: https://recruter-backend.vercel.app/docs/
+
+
 API requests are handled through a centralized Axios setup:
 
 - Custom axios instance with base URL configuration
@@ -37,7 +46,7 @@ API requests are handled through a centralized Axios setup:
 The application implements a secure authentication flow:
 
 - JWT token-based authentication
-- Token storage in localStorage with proper encryption
+- Token storage in localStorage with proper encryption (as asked on the task)
 - Protected routes that redirect unauthenticated users
 - Role-based access control (admin vs regular users)
 - Automatic token refresh mechanism
@@ -73,6 +82,14 @@ The application implements a secure authentication flow:
 - User role indication with appropriate avatars
 - Admin access to view any user's profile and tasks
 - "My Tasks" view for personal tasks
+
+### 6. Drag and Drop Task Management
+- Intuitive drag and drop interface for task reordering
+- Automatic placement of completed tasks at the bottom
+- Visual feedback during drag operations
+- Task priority management through reordering
+- Persistent task order across sessions
+
 
 ## Getting Started
 
