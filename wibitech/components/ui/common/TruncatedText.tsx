@@ -20,7 +20,7 @@ const TruncatedText: React.FC<TruncatedTextProps> = ({
   const widthClasses = `${maxWidth.default} ${maxWidth.xs || ''} ${maxWidth.sm || ''} ${maxWidth.md || ''} ${maxWidth.lg || ''}`;
   
   return (
-    <div className="max-w-full overflow-hidden" title={text}>
+    <div className="flex max-w-full overflow-hidden" title={text}>
       <div className={`
         ${widthClasses}
         overflow-hidden text-ellipsis whitespace-nowrap
