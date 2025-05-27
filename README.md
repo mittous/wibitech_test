@@ -2,6 +2,21 @@
 
 A responsive task management application built with modern web technologies.
 
+
+## Important Notes
+
+### API Configuration
+- The API base URL (`https://recruter-backend.vercel.app/api`) is directly hardcoded in the code rather than in a .env file to simplify testing.
+
+### Authentication Implementation
+- Authentication tokens are stored in localStorage instead of cookies, which created a limitation of checking tokens on the client side instead of server side.
+
+### Known API Issues
+1. Data fetching may take time to complete.
+2. Tasks and users data might occasionally be missing and require refreshing.
+3. You can register a new account directly on the website to simplify the testing process.
+
+
 ## Live Demo
 
 Visit the live application: [Wibitech Task Manager](https://wibitech-test-mstl-git-main-ismail-mittous-projects.vercel.app/login)
@@ -89,6 +104,7 @@ The application implements a secure authentication flow:
 - Visual feedback during drag operations
 - Task priority management through reordering
 - Persistent task order across sessions
+
 
 
 ## Getting Started
